@@ -1,0 +1,79 @@
+# ====================================
+# COMPILED CLASSES & ARTIFACTS
+# ====================================
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ====================================
+# BUILD TOOLS (Maven & Gradle)
+# ====================================
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+
+# Gradle (nel caso passaste a Gradle)
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# ====================================
+# IDE & EDITOR FILES (Non committare mai questi!)
+# ====================================
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.settings/
+bin/
+.classpath
+.project
+.metadata/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ====================================
+# ASTAH (Modellazione UML)
+# ====================================
+# Ignora i file di backup e lock temporanei,
+# ma MANTIENI i file .asta originali
+*.bak
+*.lock
+*.jmb
+*.net
+*~
+# Nota: Il file principale .asta deve essere committato!
+
+# ====================================
+# OS SYSTEM FILES
+# ====================================
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
