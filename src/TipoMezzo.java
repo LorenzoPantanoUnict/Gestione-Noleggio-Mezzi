@@ -1,14 +1,14 @@
 public class TipoMezzo {
 
     private String nome;
-    private boolean elettrico;
+    private boolean isElettrico;
     private boolean richiedePatente;
 
     public TipoMezzo(String nome,
-                     boolean elettrico,
+                     boolean isElettrico,
                      boolean richiedePatente) {
         this.nome = nome;
-        this.elettrico = elettrico;
+        this.isElettrico = isElettrico;
         this.richiedePatente = richiedePatente;
     }
 }
