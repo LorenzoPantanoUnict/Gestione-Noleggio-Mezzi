@@ -42,6 +42,21 @@ public class Noleggio {
         return this.costoTotale;
     }
 
+<<<<<<< HEAD
     public int getId() { return id; }
     public Mezzo getMezzo() { return mezzo; }
 }
+=======
+    public int getId() {
+        return id;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+}
+>>>>>>> 8a15641 (Aggiunte cose)

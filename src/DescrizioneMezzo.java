@@ -6,18 +6,21 @@ public class DescrizioneMezzo {
     private int annoProduzione;
     private int cilindrata;
     private int posti;
+    private TipoMezzo tipo;
 
     public DescrizioneMezzo(String marca,
                              String modello,
                              int annoProduzione,
                              int cilindrata,
-                             int posti) {
+                             int posti,
+                             TipoMezzo tipo) {
 
         this.marca = marca;
         this.modello = modello;
         this.annoProduzione = annoProduzione;
         this.cilindrata = cilindrata;
         this.posti = posti;
+        this.tipo = tipo;
     }
 
     // --- Getter ---
@@ -42,6 +45,9 @@ public class DescrizioneMezzo {
         return posti;
     }
 
+    public TipoMezzo getTipo() {
+        return tipo;
+    }
     // --- Metodo descrittivo ---
 
     public String stampaDescrizione() {

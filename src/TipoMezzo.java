@@ -11,4 +11,28 @@ public class TipoMezzo {
         this.isElettrico = isElettrico;
         this.richiedePatente = richiedePatente;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isElettrico() {
+        return elettrico;
+    }
+
+    public void setElettrico(boolean elettrico) {
+        this.elettrico = elettrico;
+    }
+
+    public boolean isRichiedePatente() {
+        return richiedePatente;
+    }
+
+    public void setRichiedePatente(boolean richiedePatente) {
+        this.richiedePatente = richiedePatente;
+    }
 }

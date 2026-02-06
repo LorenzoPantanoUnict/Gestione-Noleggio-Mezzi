@@ -27,7 +27,7 @@ public class NoleggioController {
                 cliente, mezzo, tariffa
         );
 
-        mezzo.aggiornaStato("NOLEGGIATO");
+        mezzo.aggiornaStato(StatoMezzo.NOLEGGIATO);
 
         return n.getId();
     }
@@ -44,7 +44,7 @@ public class NoleggioController {
 
         Mezzo m = n.getMezzo();
         m.setLivelloCarica(livelloCarica);
-        m.aggiornaStato("DISPONIBILE");
+        m.aggiornaStato(StatoMezzo.DISPONIBILE);
 
         System.out.println("Costo totale: " + costo);
     }

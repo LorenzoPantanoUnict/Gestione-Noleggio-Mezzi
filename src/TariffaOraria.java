@@ -13,4 +13,8 @@ public class TariffaOraria implements ITariffa {
     public String getNome() {
         return "Oraria";
     }
+
+    public String getDescrizione(){
+        return "Tariffa basata sulla durata del noleggio " + costoOra + " euro all'ora";
+    }
 }
