@@ -1,3 +1,11 @@
+package com.noleggiomezzi.controller;
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import com.noleggiomezzi.model.Cliente;
+import com.noleggiomezzi.model.Mezzo;
+import com.noleggiomezzi.model.Noleggio;
+
 public class NoleggioController {
 
     private RegistroClienti registroClienti;
@@ -12,9 +20,7 @@ public class NoleggioController {
         this.catalogoMezzi = cm;
     }
 
-    public int avviaNoleggio(int idCliente,
-                             int idMezzo,
-                             ITariffa tariffa) {
+    public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
         Cliente cliente = registroClienti.trovaCliente(idCliente);
         Mezzo mezzo = catalogoMezzi.getMezzo(idMezzo);
@@ -23,9 +29,7 @@ public class NoleggioController {
             throw new RuntimeException("Noleggio non consentito");
         }
 
-        Noleggio n = registroNoleggi.creaNoleggio(
-                cliente, mezzo, tariffa
-        );
+        Noleggio n = registroNoleggi.creaNoleggio( cliente, mezzo, tariffa, puntoNoleggio);
 
         mezzo.aggiornaStato(StatoMezzo.NOLEGGIATO);
 
@@ -33,19 +37,36 @@ public class NoleggioController {
     }
 
     public void concludiNoleggio(int idNoleggio,
-                                 int idPuntoConsegna,
+                                 int kmFinali,
                                  double livelloCarica) {
 
         Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
 
-        n.chiudi();
+        double durata = Duration.between(n.getDataInizio(), LocalDateTime.now()).toMinutes();
 
-        double costo = n.calcolaCostoFinale();
+        double costo = n.calcolaCostoFinale(kmFinali, durata);
+
 
         Mezzo m = n.getMezzo();
         m.setLivelloCarica(livelloCarica);
         m.aggiornaStato(StatoMezzo.DISPONIBILE);
 
+        //Cliente c = n.getCliente();
+        //registroClienti.addebitaImporto(c.getId(), costo);
+
+
+        //Supporre pagamento concluso con successo
+
+
+        n.chiudi();
+
         System.out.println("Costo totale: " + costo);
+
+    }
+
+    public void registraCliente(int id, String nome, String cognome, String email) {
+        int affidabilitaDefault = 1; // Valore iniziale di affidabilità
+        Cliente c = new Cliente(id, nome, cognome, affidabilitaDefault, email);
+        registroClienti.aggiungiCliente(c);
     }
 }

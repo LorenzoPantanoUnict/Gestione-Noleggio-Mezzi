@@ -1,3 +1,4 @@
+package com.noleggiomezzi.model.tariffe;
 
 
 public class TariffaOraria implements ITariffa {

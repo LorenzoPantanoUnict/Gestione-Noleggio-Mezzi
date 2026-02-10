@@ -8,11 +8,9 @@ public class RegistroNoleggi {
     private HashMap<Integer, Noleggio> mappa = new HashMap<>();
 
     public Noleggio creaNoleggio(
-            Cliente c,
-            Mezzo m,
-            ITariffa t) {
+            Cliente c, Mezzo m, ITariffa t, PuntoNoleggio p) {
 
-        Noleggio n = new Noleggio(c, m, t);
+        Noleggio n = new Noleggio(c, m, t, p);
         mappa.put(n.getId(), n);
         return n;
     }

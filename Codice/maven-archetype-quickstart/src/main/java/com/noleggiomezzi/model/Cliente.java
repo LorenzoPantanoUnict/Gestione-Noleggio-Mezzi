@@ -1,3 +1,4 @@
+package com.noleggiomezzi.model;
 public class Cliente {
 
     private int id;

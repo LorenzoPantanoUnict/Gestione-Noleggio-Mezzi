@@ -1,3 +1,4 @@
+package com.noleggiomezzi.model;
 public class TipoMezzo {
 
     private String nome;
@@ -21,11 +22,11 @@ public class TipoMezzo {
     }
 
     public boolean isElettrico() {
-        return elettrico;
+        return isElettrico;
     }
 
     public void setElettrico(boolean elettrico) {
-        this.elettrico = elettrico;
+        this.isElettrico = elettrico;
     }
 
     public boolean isRichiedePatente() {
