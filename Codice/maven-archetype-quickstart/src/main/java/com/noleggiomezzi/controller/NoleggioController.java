@@ -5,6 +5,14 @@ import java.time.LocalDateTime;
 import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
+import com.noleggiomezzi.model.PuntoNoleggio;
+import com.noleggiomezzi.model.StatoMezzo;
+import com.noleggiomezzi.model.TipoMezzo;
+import com.noleggiomezzi.model.tariffe.ITariffa;
+import com.noleggiomezzi.repository.CatalogoMezzi;
+import com.noleggiomezzi.repository.RegistroClienti;
+import com.noleggiomezzi.repository.RegistroNoleggi;
+
 
 public class NoleggioController {
 

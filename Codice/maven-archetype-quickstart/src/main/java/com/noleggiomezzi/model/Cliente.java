@@ -30,5 +30,17 @@ public class Cliente {
     public int getId() {
         return id;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
     
 }

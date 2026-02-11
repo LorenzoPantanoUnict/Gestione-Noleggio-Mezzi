@@ -1,3 +1,6 @@
+package com.noleggiomezzi.repository;
+
+import com.noleggiomezzi.model.Mezzo;
 import java.util.HashMap;
 
 public class CatalogoMezzi {

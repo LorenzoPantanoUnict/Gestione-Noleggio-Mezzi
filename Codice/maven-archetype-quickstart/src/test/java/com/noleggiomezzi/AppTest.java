@@ -1,8 +1,13 @@
 package com.noleggiomezzi;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+// 2. Le asserzioni (assertEquals, assertTrue, ecc.)
+// NOTA: "static" serve per usare direttamente assertEquals() senza scrivere Assertions.assertEquals()
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+// 3. Il ciclo di vita (se ti serve @BeforeEach per il setup)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 
 /**
  * Unit test for simple App.

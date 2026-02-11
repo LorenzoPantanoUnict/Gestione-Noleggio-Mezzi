@@ -1,5 +1,10 @@
+package com.noleggiomezzi.repository;
 
-
+import com.noleggiomezzi.model.Cliente;
+import com.noleggiomezzi.model.Mezzo;
+import com.noleggiomezzi.model.Noleggio;
+import com.noleggiomezzi.model.PuntoNoleggio;
+import com.noleggiomezzi.model.tariffe.ITariffa;
 
 import java.util.HashMap;
 

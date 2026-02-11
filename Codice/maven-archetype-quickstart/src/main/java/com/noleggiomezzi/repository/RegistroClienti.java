@@ -1,5 +1,10 @@
+package com.noleggiomezzi.repository;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import com.noleggiomezzi.model.Cliente;
+
 
 public class RegistroClienti {
 
