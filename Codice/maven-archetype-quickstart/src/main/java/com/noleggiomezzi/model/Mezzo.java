@@ -46,4 +46,8 @@ public class Mezzo {
     public void setPuntoNoleggio(PuntoNoleggio punto) {
         this.puntoNoleggio = punto;
     }
+
+    public StatoMezzo getStato() {
+        return stato;
+    }
 }

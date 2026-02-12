@@ -2,12 +2,13 @@ package com.noleggiomezzi.controller;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import com.noleggiomezzi.exceptions.StatoNonValidoException;
 import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.StatoMezzo;
-import com.noleggiomezzi.model.TipoMezzo;
+//import com.noleggiomezzi.model.TipoMezzo;
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
@@ -31,10 +32,10 @@ public class NoleggioController {
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
         Cliente cliente = registroClienti.trovaCliente(idCliente);
-        Mezzo mezzo = catalogoMezzi.getMezzo(idMezzo);
+        Mezzo mezzo = catalogoMezzi.getMezzoSeValido(idMezzo);
 
-        if (!cliente.isAbilitato() || !mezzo.isDisponibile()) {
-            throw new RuntimeException("Noleggio non consentito");
+        if (!cliente.isAbilitato()) {
+            throw new StatoNonValidoException("Cliente non abilitato a noleggiare");
         }
 
         Noleggio n = registroNoleggi.creaNoleggio( cliente, mezzo, tariffa, puntoNoleggio);
@@ -77,4 +78,6 @@ public class NoleggioController {
         Cliente c = new Cliente(id, nome, cognome, affidabilitaDefault, email);
         registroClienti.aggiungiCliente(c);
     }
+
+    
 }

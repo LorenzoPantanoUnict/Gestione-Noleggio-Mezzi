@@ -43,7 +43,6 @@ class NoleggioControllerTest {
     @Test
     void testRegistrazioneCliente() {
         // ACT
-        // Uso un ID univoco (100) per evitare conflitti col Singleton
         controller.registraCliente(100, "Mario", "Rossi", "mario@email.com");
 
         // ASSERT
