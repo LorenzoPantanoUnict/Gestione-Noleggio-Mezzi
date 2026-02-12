@@ -49,9 +49,10 @@ public class Noleggio {
         this.statoPagamento = StatoPagamento.PAGATO;
     }
 
+   // Getters
+
     public int getId() { return id; }
 
-    
     public Mezzo getMezzo() { return mezzo; }
 
     public Cliente getCliente() { return cliente; }
@@ -65,4 +66,10 @@ public class Noleggio {
     public StatoPagamento getStatoPagamento() { return statoPagamento; }
 
     public LocalDateTime getDataInizio() { return dataInizio; }
+
+    //Setters
+
+    public void setLivelloCarica(double livelloCarica) {
+        this.mezzo.setLivelloCarica(livelloCarica);
+    }
 }

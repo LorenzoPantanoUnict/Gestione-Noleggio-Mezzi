@@ -26,8 +26,6 @@ public class PuntoNoleggio {
         this.inventario = new ArrayList<>();
     }
 
-
-
     public void rilasciaMezzo(Mezzo m) {
 
         if (isPieno()) {
@@ -49,14 +47,16 @@ public class PuntoNoleggio {
         }
 
         inventario.add(m);
-        m.aggiornaStato(StatoMezzo.DISPONIBILE);
+        m.setStatoDisponibile();
+
         m.setPuntoNoleggio(this);
     }
 
     public void prelevaMezzo(Mezzo m) {
 
         inventario.remove(m);
-        m.aggiornaStato(StatoMezzo.NOLEGGIATO);
+        
+        m.setStatoNoleggiato();
     }
 
 

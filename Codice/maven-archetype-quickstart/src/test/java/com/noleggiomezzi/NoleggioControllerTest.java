@@ -46,7 +46,7 @@ class NoleggioControllerTest {
         controller.registraCliente(100, "Mario", "Rossi", "mario@email.com");
 
         // ASSERT
-        Cliente c = registroClienti.trovaCliente(100);
+        Cliente c = registroClienti.getCliente(100);
         assertNotNull(c, "Il cliente dovrebbe essere stato salvato nel registro");
         assertEquals("Mario", c.getNome(), "Il nome salvato non corrisponde");
     }
@@ -78,7 +78,7 @@ class NoleggioControllerTest {
         Mezzo m = preparaMezzo(202, true);
         
         // Simulo che il mezzo sia rotto o già noleggiato
-        m.aggiornaStato(StatoMezzo.IN_MANUTENZIONE);
+        m.setStato(StatoMezzo.IN_MANUTENZIONE);
 
         // ACT & ASSERT
         Exception eccezione = assertThrows(RuntimeException.class, () -> {

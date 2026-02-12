@@ -15,17 +15,29 @@ public class Mezzo {
         this.livelloCarica = 100.0;
     }
 
-    public boolean isDisponibile() {
-        return stato == StatoMezzo.DISPONIBILE;
+    // Setters
+
+    public void setPuntoNoleggio(PuntoNoleggio punto) {
+        this.puntoNoleggio = punto;
     }
 
-    public void aggiornaStato(StatoMezzo stato) {
+    public void setStato(StatoMezzo stato) {
         this.stato = stato;
+    }
+
+    public void setStatoDisponibile() {
+        this.stato = StatoMezzo.DISPONIBILE;
+    }
+
+    public void setStatoNoleggiato() {
+        this.stato = StatoMezzo.NOLEGGIATO;
     }
 
     public void setLivelloCarica(double livelloCarica) {
         this.livelloCarica = livelloCarica;
     }
+
+    // Getters
 
     public double getLivelloCarica() {
         return livelloCarica;
@@ -43,11 +55,13 @@ public class Mezzo {
         return tipo;
     }
 
-    public void setPuntoNoleggio(PuntoNoleggio punto) {
-        this.puntoNoleggio = punto;
-    }
-
     public StatoMezzo getStato() {
         return stato;
+    }
+
+    // Altri metodi
+
+    public boolean isDisponibile() {
+        return stato == StatoMezzo.DISPONIBILE;
     }
 }

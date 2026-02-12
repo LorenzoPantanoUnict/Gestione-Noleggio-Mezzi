@@ -24,7 +24,7 @@ public class RegistroClienti {
         return instance;
     }
     
-    public Cliente trovaCliente(int id) {
+    public Cliente getCliente(int id) {
         return mappaClienti.get(id);
     }
 
@@ -45,7 +45,7 @@ public class RegistroClienti {
         int count = 0;
 
         for (Cliente c : mappaClienti.values()) {
-            if (!c.isAbilitato()) {
+            if (!c.isAffidabile()) {
                 count++;
             }
         }

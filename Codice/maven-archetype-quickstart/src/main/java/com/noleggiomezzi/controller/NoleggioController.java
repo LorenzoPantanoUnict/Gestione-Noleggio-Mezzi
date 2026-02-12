@@ -2,17 +2,19 @@ package com.noleggiomezzi.controller;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import com.noleggiomezzi.exceptions.PagamentoException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
 import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
-import com.noleggiomezzi.model.StatoMezzo;
-//import com.noleggiomezzi.model.TipoMezzo;
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
+
+//Validatore
+import org.apache.commons.validator.routines.EmailValidator;
 
 
 public class NoleggioController {
@@ -31,16 +33,19 @@ public class NoleggioController {
 
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
-        Cliente cliente = registroClienti.trovaCliente(idCliente);
+        Cliente cliente = registroClienti.getCliente(idCliente);
+
         Mezzo mezzo = catalogoMezzi.getMezzoSeValido(idMezzo);
 
-        if (!cliente.isAbilitato()) {
+        if (!cliente.isAffidabile()) {
             throw new StatoNonValidoException("Cliente non abilitato a noleggiare");
         }
 
-        Noleggio n = registroNoleggi.creaNoleggio( cliente, mezzo, tariffa, puntoNoleggio);
+        Noleggio n = new Noleggio( cliente, mezzo, tariffa, puntoNoleggio);
+        
+        mezzo.setStatoNoleggiato();
 
-        mezzo.aggiornaStato(StatoMezzo.NOLEGGIATO);
+        registroNoleggi.aggiungiNoleggio(n);
 
         return n.getId();
     }
@@ -51,31 +56,44 @@ public class NoleggioController {
 
         Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
 
+        n.setLivelloCarica(livelloCarica);
+
         double durata = Duration.between(n.getDataInizio(), LocalDateTime.now()).toMinutes();
 
+        Mezzo m = n.getMezzo();
+        
+        m.setLivelloCarica(livelloCarica);
+        
+        m.setStatoDisponibile();
+        
         double costo = n.calcolaCostoFinale(kmFinali, durata);
 
+        Cliente c = n.getCliente();
 
-        Mezzo m = n.getMezzo();
-        m.setLivelloCarica(livelloCarica);
-        m.aggiornaStato(StatoMezzo.DISPONIBILE);
+        boolean pagamentoEffettuato = c.addebbitaImporto(costo);
 
-        //Cliente c = n.getCliente();
-        //registroClienti.addebitaImporto(c.getId(), costo);
-
-
-        //Supporre pagamento concluso con successo
-
+        if (!pagamentoEffettuato) {
+            throw new PagamentoException("Pagamento non riuscito");
+        }
 
         n.chiudi();
 
-        System.out.println("Costo totale: " + costo);
+        System.out.println("Noleggio concluso con successo");
 
     }
 
-    public void registraCliente(int id, String nome, String cognome, String email) {
-        int affidabilitaDefault = 1; // Valore iniziale di affidabilità
-        Cliente c = new Cliente(id, nome, cognome, affidabilitaDefault, email);
+    public void registraCliente(String nome, String cognome, String email) {
+        
+        Cliente c = new Cliente( nome, cognome, email);
+
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+
+        if(!EmailValidator.getInstance().isValid(email)) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+        
         registroClienti.aggiungiCliente(c);
     }
 
