@@ -1,0 +1,22 @@
+package com.noleggiomezzi.controller;
+
+import com.noleggiomezzi.service.AutenticazioneService;
+import com.noleggiomezzi.exceptions.CredenzialiErrateException;
+
+public class LoginController {
+    
+    private AutenticazioneService authService;
+
+    public LoginController() {
+        this.authService = new AutenticazioneService();
+    }
+
+    public void login(String username, String password) {
+        try {
+            authService.autentica(username, password);
+            System.out.println("SUCCESSO: Login effettuato per l'utente '" + username + "'.");
+        } catch (CredenzialiErrateException e) {
+            System.err.println("ERRORE LOGIN: " + e.getMessage());
+        }
+    }
+}

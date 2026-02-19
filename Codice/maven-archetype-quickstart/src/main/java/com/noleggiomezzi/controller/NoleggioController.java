@@ -11,12 +11,11 @@ import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
+import com.noleggiomezzi.mediator.RiconsegnaMediator;
+import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
 
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
-
-import com.noleggiomezzi.mediator.RiconsegnaMediator;
-import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
 
 
 public class NoleggioController {
