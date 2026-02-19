@@ -43,7 +43,7 @@ class NoleggioControllerTest {
     @Test
     void testRegistrazioneCliente() {
         // ACT
-        controller.registraCliente(100, "Mario", "Rossi", "mario@email.com");
+        controller.registraCliente("Mario", "Rossi", "mario@email.com");
 
         // ASSERT
         Cliente c = registroClienti.getCliente(100);
@@ -105,7 +105,7 @@ class NoleggioControllerTest {
     void testConclusioneNoleggio() {
         // ARRANGE
         preparaCliente(104, true);
-        Mezzo m = preparaMezzo(204, true);
+        preparaMezzo(204, true);
         
         // Uso Tariffa GIORNALIERA per avere un costo fisso prevedibile (20.0 euro)
         // indipendentemente dalla durata in millisecondi del test
@@ -136,8 +136,7 @@ class NoleggioControllerTest {
     
     private void preparaCliente(int id, boolean abilitato) {
         // Costruttore: id, nome, cognome, affidabilità, email
-        int affidabilita = abilitato ? 100 : 0;
-        Cliente c = new Cliente(id, "Test", "User", affidabilita, "test@email.com");
+        Cliente c = new Cliente( "Test", "User",  "test@email.com");
         registroClienti.aggiungiCliente(c);
     }
 
