@@ -17,13 +17,15 @@ import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
-import mediator.RiconsegnaMediator;
-import mediator.RiconsegnaMediatorImpl;
+import com.noleggiomezzi.mediator.RiconsegnaMediator;
+import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
 
 
 public class NoleggioController {
     private RiconsegnaMediator mediator;
-    private RegistroClienti registroClienti;
+    private RegistroClienti registroClienti =
+        RegistroClienti.getInstance();
+
     private RegistroNoleggi registroNoleggi;
     private CatalogoMezzi catalogoMezzi;
 
@@ -84,20 +86,40 @@ public class NoleggioController {
 }
 
 
-    public void registraCliente(String nome, String cognome, String email) {
-        
-        Cliente c = new Cliente( nome, cognome, email);
+   public int registraCliente(String nome,
+                           String cognome,
+                           String email) {
 
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email non valida");
-        }
-
-        if(!EmailValidator.getInstance().isValid(email)) {
-            throw new IllegalArgumentException("Email non valida");
-        }
-        
-        registroClienti.aggiungiCliente(c);
+    // 1️⃣ Validazione email
+    if (email == null || email.isEmpty()) {
+        throw new IllegalArgumentException(
+                "Email non valida");
     }
+
+    if (!EmailValidator.getInstance()
+            .isValid(email)) {
+
+        throw new IllegalArgumentException(
+                "Formato email non valido");
+    }
+    if (registroClienti.emailEsistente(email)) {
+    throw new IllegalArgumentException(
+            "Email già registrata");
+    }
+
+    // 2️⃣ Creazione cliente
+    Cliente cliente =
+            new Cliente(nome,
+                        cognome,
+                        email);
+
+    // 3️⃣ Salvataggio nel registro
+    registroClienti.aggiungiCliente(cliente);
+
+    // 4️⃣ Return ID (utile per UI / test)
+    return cliente.getId();
+}
+
 
     public void segnalaFurto(int idNoleggio, String descrizione){
 

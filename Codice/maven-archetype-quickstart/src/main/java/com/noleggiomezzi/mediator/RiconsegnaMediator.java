@@ -1,6 +1,6 @@
-package mediator;
+package com.noleggiomezzi.mediator;
 
-import model.Noleggio;
+import com.noleggiomezzi.model.Noleggio;
 
 public interface RiconsegnaMediator {
 
