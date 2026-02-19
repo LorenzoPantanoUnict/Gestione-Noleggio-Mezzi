@@ -1,4 +1,8 @@
 package com.noleggiomezzi.model;
+
+import java.util.ArrayList; 
+import java.util.List;      
+
 public class Mezzo {
 
     private int id;
@@ -7,16 +11,26 @@ public class Mezzo {
     DescrizioneMezzo descrizione;
     PuntoNoleggio puntoNoleggio;
     private TipoMezzo tipo;
+    
+    private List<InterventoManutenzione> interventi; 
 
     public Mezzo(int id, DescrizioneMezzo descrizione) {
         this.id = id;
         this.descrizione = descrizione;
         this.stato = StatoMezzo.DISPONIBILE;
         this.livelloCarica = 100.0;
+        
+        this.interventi = new ArrayList<>(); 
     }
 
-    // Setters
-
+    public void aggiungiIntervento(InterventoManutenzione i) {
+        this.interventi.add(i);
+    }
+    
+    public List<InterventoManutenzione> getInterventi() {
+        return this.interventi;
+    }
+    
     public void setPuntoNoleggio(PuntoNoleggio punto) {
         this.puntoNoleggio = punto;
     }
@@ -41,8 +55,6 @@ public class Mezzo {
         this.stato = StatoMezzo.RUBATO;
     }
 
-    // Getters
-
     public double getLivelloCarica() {
         return livelloCarica;
     }
@@ -62,8 +74,6 @@ public class Mezzo {
     public StatoMezzo getStato() {
         return stato;
     }
-
-    // Altri metodi
 
     public boolean isDisponibile() {
         return stato == StatoMezzo.DISPONIBILE;
