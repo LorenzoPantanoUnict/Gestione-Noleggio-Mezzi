@@ -49,6 +49,7 @@ public class DescrizioneMezzo {
     public TipoMezzo getTipo() {
         return tipo;
     }
+    
     // --- Metodo descrittivo ---
 
     public String stampaDescrizione() {

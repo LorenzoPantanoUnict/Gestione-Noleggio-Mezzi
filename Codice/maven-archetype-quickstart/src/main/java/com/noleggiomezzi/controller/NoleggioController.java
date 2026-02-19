@@ -1,7 +1,4 @@
 package com.noleggiomezzi.controller;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 
 import com.noleggiomezzi.exceptions.PagamentoException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
@@ -14,19 +11,16 @@ import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
+import com.noleggiomezzi.mediator.RiconsegnaMediator;
+import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
 
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
-import com.noleggiomezzi.mediator.RiconsegnaMediator;
-import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
-
 
 public class NoleggioController {
     private RiconsegnaMediator mediator;
-    private RegistroClienti registroClienti =
-        RegistroClienti.getInstance();
-
+    private RegistroClienti registroClienti;
     private RegistroNoleggi registroNoleggi;
     private CatalogoMezzi catalogoMezzi;
 
@@ -87,40 +81,20 @@ public class NoleggioController {
 }
 
 
-   public int registraCliente(String nome,
-                           String cognome,
-                           String email) {
+    public void registraCliente(String nome, String cognome, String email) {
+        
+        Cliente c = new Cliente( nome, cognome, email);
 
-    // 1️⃣ Validazione email
-    if (email == null || email.isEmpty()) {
-        throw new IllegalArgumentException(
-                "Email non valida");
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+
+        if(!EmailValidator.getInstance().isValid(email)) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+        
+        registroClienti.aggiungiCliente(c);
     }
-
-    if (!EmailValidator.getInstance()
-            .isValid(email)) {
-
-        throw new IllegalArgumentException(
-                "Formato email non valido");
-    }
-    if (registroClienti.emailEsistente(email)) {
-    throw new IllegalArgumentException(
-            "Email già registrata");
-    }
-
-    // 2️⃣ Creazione cliente
-    Cliente cliente =
-            new Cliente(nome,
-                        cognome,
-                        email);
-
-    // 3️⃣ Salvataggio nel registro
-    registroClienti.aggiungiCliente(cliente);
-
-    // 4️⃣ Return ID (utile per UI / test)
-    return cliente.getId();
-}
-
 
     public void segnalaFurto(int idNoleggio, String descrizione){
 
@@ -135,52 +109,6 @@ public class NoleggioController {
         }
 
         n.chiudi();
-    }
-
-    public List<Mezzo> visualizzaDisponibilita(
-        PuntoNoleggio punto) {
-
-    List<Mezzo> lista =
-            punto.getListaMezziDisponibili();
-
-    for (Mezzo m : lista) {
-
-        System.out.println(
-            "Mezzo ID: " + m.getId() +
-            " | Stato: " + m.getStato());
-    }
-
-    return lista;
-    }
- 
-    public void gestisciBlacklist(int idCliente) {
-
-    // 1️⃣ Verifica esistenza
-    if (!registroClienti.esiste(idCliente)) {
-        throw new IllegalArgumentException(
-            "Cliente non registrato");
-    }
-
-    Cliente c =
-        registroClienti.getCliente(idCliente);
-
-    // 2️⃣ Toggle blacklist
-    if (!c.isAffidabile()) {
-
-        // Cliente già in blacklist → rimuovo
-        c.riattivaAccount();
-
-        System.out.println(
-            "Cliente rimosso dalla blacklist");
-
-    } else {
-
-        // Cliente affidabile → inserisco
-        c.sospendiAccount();
-
-        System.out.println(
-            "Cliente inserito in blacklist");
-    }
     }
 
     
