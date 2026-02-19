@@ -1,6 +1,4 @@
 package com.noleggiomezzi.controller;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 import com.noleggiomezzi.exceptions.PagamentoException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
@@ -17,8 +15,8 @@ import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
-import mediator.RiconsegnaMediator;
-import mediator.RiconsegnaMediatorImpl;
+import com.noleggiomezzi.mediator.RiconsegnaMediator;
+import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
 
 
 public class NoleggioController {

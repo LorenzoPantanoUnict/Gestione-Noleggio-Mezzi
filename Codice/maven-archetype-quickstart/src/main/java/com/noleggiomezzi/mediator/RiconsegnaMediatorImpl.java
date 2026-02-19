@@ -1,11 +1,11 @@
-package mediator;
+package com.noleggiomezzi.mediator;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import model.Cliente;
-import model.Mezzo;
-import model.Noleggio;
+import com.noleggiomezzi.model.Cliente;
+import com.noleggiomezzi.model.Mezzo;
+import com.noleggiomezzi.model.Noleggio;
 
 public class RiconsegnaMediatorImpl
         implements RiconsegnaMediator {
