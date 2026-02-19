@@ -16,20 +16,27 @@ import com.noleggiomezzi.repository.RegistroNoleggi;
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
+import mediator.RiconsegnaMediator;
+import mediator.RiconsegnaMediatorImpl;
+
 
 public class NoleggioController {
-
+    private RiconsegnaMediator mediator;
     private RegistroClienti registroClienti;
     private RegistroNoleggi registroNoleggi;
     private CatalogoMezzi catalogoMezzi;
 
-    public NoleggioController(RegistroClienti rc,
-                              RegistroNoleggi rn,
-                              CatalogoMezzi cm) {
-        this.registroClienti = rc;
-        this.registroNoleggi = rn;
-        this.catalogoMezzi = cm;
-    }
+   public NoleggioController(RegistroClienti rc,
+                          RegistroNoleggi rn,
+                          CatalogoMezzi cm) {
+
+    this.registroClienti = rc;
+    this.registroNoleggi = rn;
+    this.catalogoMezzi = cm;
+
+    // inizializzazione mediator
+    this.mediator = new RiconsegnaMediatorImpl();
+}
 
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
@@ -50,37 +57,31 @@ public class NoleggioController {
         return n.getId();
     }
 
-    public void concludiNoleggio(int idNoleggio,
-                                 int kmFinali,
-                                 double livelloCarica) {
+ public void concludiNoleggio(int idNoleggio,
+                             int kmFinali,
+                             double livelloCarica) {
 
-        Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
+    Noleggio n =
+        registroNoleggi.getNoleggio(idNoleggio);
 
-        n.setLivelloCarica(livelloCarica);
+    boolean pagamentoEffettuato =
+        mediator.gestisciChiusura(
+            n,
+            kmFinali,
+            livelloCarica
+        );
 
-        double durata = Duration.between(n.getDataInizio(), LocalDateTime.now()).toMinutes();
-
-        Mezzo m = n.getMezzo();
-        
-        m.setLivelloCarica(livelloCarica);
-        
-        m.setStatoDisponibile();
-        
-        double costo = n.calcolaCostoFinale(kmFinali, durata);
-
-        Cliente c = n.getCliente();
-
-        boolean pagamentoEffettuato = c.addebbitaImporto(costo);
-
-        if (!pagamentoEffettuato) {
-            throw new PagamentoException("Pagamento non riuscito");
-        }
-
-        n.chiudi();
-
-        System.out.println("Noleggio concluso con successo");
-
+    if (!pagamentoEffettuato) {
+        throw new PagamentoException(
+            "Pagamento non riuscito");
     }
+
+    n.chiudi();
+
+    System.out.println(
+        "Noleggio concluso con successo");
+}
+
 
     public void registraCliente(String nome, String cognome, String email) {
         
