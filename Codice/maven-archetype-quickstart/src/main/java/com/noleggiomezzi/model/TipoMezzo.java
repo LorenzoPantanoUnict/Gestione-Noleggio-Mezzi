@@ -5,6 +5,8 @@ public class TipoMezzo {
     private boolean isElettrico;
     private boolean richiedePatente;
 
+    public TipoMezzo() { }
+
     public TipoMezzo(String nome,
                      boolean isElettrico,
                      boolean richiedePatente) {
@@ -13,24 +15,28 @@ public class TipoMezzo {
         this.richiedePatente = richiedePatente;
     }
 
+    // Getters
+
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public boolean isElettrico() {
         return isElettrico;
     }
-
-    public void setElettrico(boolean elettrico) {
-        this.isElettrico = elettrico;
-    }
-
+    
     public boolean isRichiedePatente() {
         return richiedePatente;
+    }
+
+    //Setters
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public void setElettrico(boolean elettrico) {
+        this.isElettrico = elettrico;
     }
 
     public void setRichiedePatente(boolean richiedePatente) {

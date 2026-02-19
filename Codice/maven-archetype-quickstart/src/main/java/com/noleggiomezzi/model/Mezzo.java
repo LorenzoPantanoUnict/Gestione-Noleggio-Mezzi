@@ -14,6 +14,14 @@ public class Mezzo {
     
     private List<InterventoManutenzione> interventi; 
 
+    public Mezzo(int id, DescrizioneMezzo descrizione, PuntoNoleggio puntoNoleggio) {
+        this.id = id;
+        this.descrizione = descrizione;
+        this.stato = StatoMezzo.DISPONIBILE;
+        this.livelloCarica = 100.0;
+        this.puntoNoleggio = puntoNoleggio;
+    }
+
     public Mezzo(int id, DescrizioneMezzo descrizione) {
         this.id = id;
         this.descrizione = descrizione;
