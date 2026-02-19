@@ -1,6 +1,7 @@
 package com.noleggiomezzi.controller;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.noleggiomezzi.exceptions.PagamentoException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
@@ -134,6 +135,22 @@ public class NoleggioController {
         }
 
         n.chiudi();
+    }
+    
+    public List<Mezzo> visualizzaDisponibilita(
+        PuntoNoleggio punto) {
+
+    List<Mezzo> lista =
+            punto.getListaMezziDisponibili();
+
+    for (Mezzo m : lista) {
+
+        System.out.println(
+            "Mezzo ID: " + m.getId() +
+            " | Stato: " + m.getStato());
+    }
+
+    return lista;
     }
 
     
