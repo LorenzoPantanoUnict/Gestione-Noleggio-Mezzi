@@ -136,7 +136,7 @@ public class NoleggioController {
 
         n.chiudi();
     }
-    
+
     public List<Mezzo> visualizzaDisponibilita(
         PuntoNoleggio punto) {
 
@@ -151,6 +151,36 @@ public class NoleggioController {
     }
 
     return lista;
+    }
+ 
+    public void gestisciBlacklist(int idCliente) {
+
+    // 1️⃣ Verifica esistenza
+    if (!registroClienti.esiste(idCliente)) {
+        throw new IllegalArgumentException(
+            "Cliente non registrato");
+    }
+
+    Cliente c =
+        registroClienti.getCliente(idCliente);
+
+    // 2️⃣ Toggle blacklist
+    if (!c.isAffidabile()) {
+
+        // Cliente già in blacklist → rimuovo
+        c.riattivaAccount();
+
+        System.out.println(
+            "Cliente rimosso dalla blacklist");
+
+    } else {
+
+        // Cliente affidabile → inserisco
+        c.sospendiAccount();
+
+        System.out.println(
+            "Cliente inserito in blacklist");
+    }
     }
 
     
