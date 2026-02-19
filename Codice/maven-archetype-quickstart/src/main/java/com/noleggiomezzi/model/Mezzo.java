@@ -51,6 +51,10 @@ public class Mezzo {
         this.stato = StatoMezzo.DISPONIBILE;
     }
 
+    public void setStatoFuoriServizio() {
+        this.stato = StatoMezzo.FUORI_SERVIZIO;
+    }
+    
     public void setStatoNoleggiato() {
         this.stato = StatoMezzo.NOLEGGIATO;
     }
