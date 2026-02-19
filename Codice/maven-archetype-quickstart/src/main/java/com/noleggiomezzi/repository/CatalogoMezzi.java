@@ -4,6 +4,7 @@ import com.noleggiomezzi.model.Mezzo;
 import java.util.HashMap;
 
 import com.noleggiomezzi.model.StatoMezzo;
+import com.noleggiomezzi.model.TipoMezzo;
 
 import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
@@ -11,6 +12,7 @@ import com.noleggiomezzi.exceptions.StatoNonValidoException;
 public class CatalogoMezzi  {
 
     private HashMap<Integer, Mezzo> mappa = new HashMap<>();
+    private CatalogoTipoMezzi catalogoTipoMezzi;
 
     public Mezzo getMezzo(int id) throws EnitaNonTrovataException {
         Mezzo m = mappa.get(id);
@@ -37,5 +39,13 @@ public class CatalogoMezzi  {
         }
 
         return m;
+    }
+
+    public TipoMezzo getTipoMezzo(String nome) {
+        return catalogoTipoMezzi.getTipoMezzo(nome);
+    }
+
+    public boolean esisteMezzo(int id) {
+        return mappa.containsKey(id);
     }
 }
