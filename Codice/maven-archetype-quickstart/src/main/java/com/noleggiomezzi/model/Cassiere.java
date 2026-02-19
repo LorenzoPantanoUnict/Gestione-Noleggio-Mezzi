@@ -16,6 +16,7 @@ public class Cassiere {
     }
 
     public boolean checkPassword(String passwordInserita) {
+        System.out.println("[CASSIERE] Controllo la password per l'utente " + this.username + "...");
         return this.password.equals(passwordInserita);
     }
 
