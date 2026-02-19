@@ -37,6 +37,10 @@ public class Mezzo {
         this.livelloCarica = livelloCarica;
     }
 
+    public void setStatoRubato() {
+        this.stato = StatoMezzo.RUBATO;
+    }
+
     // Getters
 
     public double getLivelloCarica() {

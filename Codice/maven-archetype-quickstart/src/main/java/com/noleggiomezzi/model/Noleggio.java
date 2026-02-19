@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import com.noleggiomezzi.model.enums.StatoNoleggio;
 import com.noleggiomezzi.model.enums.StatoPagamento;
 import com.noleggiomezzi.model.tariffe.ITariffa;
+import com.noleggiomezzi.segnalazioni.Segnalazione;
+
+import java.util.List;
 
 public class Noleggio {
     private static int counter = 1;
@@ -20,6 +23,8 @@ public class Noleggio {
     
     private StatoNoleggio statoNoleggio;
     private StatoPagamento statoPagamento;
+
+    private List<Segnalazione> segnalazioni;
 
     public Noleggio(Cliente cliente, Mezzo mezzo, ITariffa tariffa, PuntoNoleggio punto) {
         this.id = counter++;
@@ -48,6 +53,15 @@ public class Noleggio {
         this.statoNoleggio = StatoNoleggio.CONCLUSO;
         this.statoPagamento = StatoPagamento.PAGATO;
     }
+
+    public boolean gestisciSegnalazione(Segnalazione s){
+        this.segnalazioni.add(s);
+        s.aggiornaStatoMezzo(mezzo);
+        double perdite = s.calcolaPerdite();
+        boolean pagamentoEffettuato = cliente.addebbitaImporto(perdite);
+        return pagamentoEffettuato;
+    }
+
 
    // Getters
 

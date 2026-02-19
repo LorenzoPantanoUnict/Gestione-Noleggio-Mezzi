@@ -12,6 +12,7 @@ import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
+import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
@@ -95,6 +96,21 @@ public class NoleggioController {
         }
         
         registroClienti.aggiungiCliente(c);
+    }
+
+    public void segnalaFurto(int idNoleggio, String descrizione){
+
+        Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
+
+        SegnalazioneFurto segnalazione = new SegnalazioneFurto(idNoleggio, descrizione);
+
+        boolean pagamentoEffettuato = n.gestisciSegnalazione(segnalazione);
+
+        if (!pagamentoEffettuato) {
+            throw new PagamentoException("Pagamento non riuscito");
+        }
+
+        n.chiudi();
     }
 
     
