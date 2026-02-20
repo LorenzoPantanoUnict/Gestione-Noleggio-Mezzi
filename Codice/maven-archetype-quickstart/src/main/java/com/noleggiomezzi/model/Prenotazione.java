@@ -1,5 +1,8 @@
 package com.noleggiomezzi.model;
 
+import com.noleggiomezzi.model.tariffe.ITariffa;
+import com.noleggiomezzi.model.tariffe.TariffaGiornaliera;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class Prenotazione {
@@ -29,7 +32,9 @@ public class Prenotazione {
     }
 
     private double calcolaCostoStimato() {
-        return 50.0; 
+        ITariffa tariffa = new TariffaGiornaliera();
+        long durataMinuti = ChronoUnit.MINUTES.between(periodo.getDataInizio(), periodo.getDataFine());
+        return tariffa.calcolaCosto((int) durataMinuti, 0);
     }
 
     public Cliente getCliente() { return cliente; }

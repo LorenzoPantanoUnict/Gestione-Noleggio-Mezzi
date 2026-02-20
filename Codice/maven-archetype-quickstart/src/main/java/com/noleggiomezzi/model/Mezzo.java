@@ -79,8 +79,11 @@ public class Mezzo {
         return descrizione;
     }
 
-    public TipoMezzo getTipo() {
-        return tipo;
+   public TipoMezzo getTipo() {
+        if (this.tipo == null && this.descrizione != null) {
+            return this.descrizione.getTipo();
+        }
+        return this.tipo;
     }
 
     public StatoMezzo getStato() {
@@ -89,5 +92,9 @@ public class Mezzo {
 
     public boolean isDisponibile() {
         return stato == StatoMezzo.DISPONIBILE;
+    }
+
+    public PuntoNoleggio getPuntoNoleggio() {
+        return puntoNoleggio;
     }
 }

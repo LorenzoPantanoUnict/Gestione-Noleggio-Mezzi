@@ -1,10 +1,13 @@
 package com.noleggiomezzi.repository;
 
 import com.noleggiomezzi.model.Mezzo;
-import java.util.HashMap;
-
+import com.noleggiomezzi.model.DateRange;
 import com.noleggiomezzi.model.StatoMezzo;
 import com.noleggiomezzi.model.TipoMezzo;
+
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
@@ -47,5 +50,27 @@ public class CatalogoMezzi  {
 
     public boolean esisteMezzo(int id) {
         return mappa.containsKey(id);
+    }
+
+    public List<Mezzo> verificaDisponibilita(TipoMezzo tipo, DateRange periodo, int idPuntoNoleggio) {
+        List<Mezzo> disponibili = new ArrayList<>();
+        
+        for (Mezzo m : mappa.values()) {
+            if (m.getTipo() != null && m.getTipo().equals(tipo) && m.getStato() == StatoMezzo.DISPONIBILE) {
+                
+                if (m.getPuntoNoleggio() != null && m.getPuntoNoleggio().getId() == idPuntoNoleggio) {
+                    disponibili.add(m);
+                }
+            }
+        }
+        return disponibili;
+    }
+
+    public boolean aggiornaStatoMezzo(Mezzo mezzo, StatoMezzo nuovoStato) {
+        if (mappa.containsKey(mezzo.getId())) {
+            mezzo.setStato(nuovoStato);
+            return true;
+        }
+        return false;
     }
 }
