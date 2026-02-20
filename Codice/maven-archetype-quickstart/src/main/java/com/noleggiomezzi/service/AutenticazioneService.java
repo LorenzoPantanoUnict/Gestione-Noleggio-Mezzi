@@ -4,6 +4,9 @@ import com.noleggiomezzi.model.Cassiere;
 import com.noleggiomezzi.repository.RegistroCassieri;
 import com.noleggiomezzi.exceptions.CredenzialiErrateException;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class AutenticazioneService {
     
     private RegistroCassieri registroCassieri;

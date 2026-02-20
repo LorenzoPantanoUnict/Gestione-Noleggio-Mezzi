@@ -6,6 +6,9 @@ import com.noleggiomezzi.model.TipoMezzo;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.utility.MezzoBuilder;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class MezzoController {
 
     private CatalogoMezzi catalogoMezzi;

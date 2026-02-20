@@ -1,10 +1,14 @@
 package com.noleggiomezzi.repository;
 
 import com.noleggiomezzi.model.InterventoManutenzione;
+import com.noleggiomezzi.repository.interfacce.IManutenzioneRepository;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class RegistroManutenzioni implements IManutenzioneRepository {
     
     // Il tuo "database" in memoria

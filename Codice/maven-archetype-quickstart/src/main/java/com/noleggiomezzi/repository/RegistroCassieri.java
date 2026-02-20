@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.noleggiomezzi.model.Cassiere;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class RegistroCassieri {
 
     private static RegistroCassieri instance;

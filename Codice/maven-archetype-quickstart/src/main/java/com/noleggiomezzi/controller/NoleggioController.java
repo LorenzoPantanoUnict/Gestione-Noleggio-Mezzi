@@ -7,13 +7,15 @@ import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.tariffe.ITariffa;
-import com.noleggiomezzi.repository.IClienteRepository;
-import com.noleggiomezzi.repository.IMezzoRepository;
-import com.noleggiomezzi.repository.INoleggioRepository;
+import com.noleggiomezzi.repository.interfacce.IClienteRepository;
+import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
+import com.noleggiomezzi.repository.interfacce.INoleggioRepository;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 import com.noleggiomezzi.service.IChiusuraNoleggioService;
 
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class NoleggioController {
     private IChiusuraNoleggioService chiusuraService;
     private IClienteRepository registroClienti;

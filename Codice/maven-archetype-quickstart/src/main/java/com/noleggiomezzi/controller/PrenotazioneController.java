@@ -6,6 +6,9 @@ import com.noleggiomezzi.repository.RegistroPrenotazioni;
 import com.noleggiomezzi.exceptions.NessunaDisponibilitaException;
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class PrenotazioneController {
 
     private CatalogoMezzi catalogoMezzi;

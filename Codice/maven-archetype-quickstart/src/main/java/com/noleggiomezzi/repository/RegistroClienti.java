@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.noleggiomezzi.model.Cliente;
+import com.noleggiomezzi.repository.interfacce.IClienteRepository;
 
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class RegistroClienti implements IClienteRepository {
 
     private static RegistroClienti instance;

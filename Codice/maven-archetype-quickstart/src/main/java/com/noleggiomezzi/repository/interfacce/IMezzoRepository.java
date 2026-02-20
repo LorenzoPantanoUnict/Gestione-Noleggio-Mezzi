@@ -1,4 +1,4 @@
-package com.noleggiomezzi.repository;
+package com.noleggiomezzi.repository.interfacce;
 
 import com.noleggiomezzi.model.Mezzo;
 

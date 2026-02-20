@@ -7,6 +7,10 @@ import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 
+
+import org.springframework.stereotype.Service;
+
+@Service
 public class ChiusuraNoleggio
         implements IChiusuraNoleggioService {
 

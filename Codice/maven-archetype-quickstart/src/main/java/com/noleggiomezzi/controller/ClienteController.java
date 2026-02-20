@@ -1,11 +1,14 @@
 package com.noleggiomezzi.controller;
 
 import com.noleggiomezzi.model.Cliente;
-import com.noleggiomezzi.repository.IClienteRepository;
+import com.noleggiomezzi.repository.interfacce.IClienteRepository;
 
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class ClienteController {
 
     private IClienteRepository registroClienti;

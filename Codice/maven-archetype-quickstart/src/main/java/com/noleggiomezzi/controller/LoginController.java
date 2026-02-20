@@ -3,6 +3,9 @@ package com.noleggiomezzi.controller;
 import com.noleggiomezzi.service.AutenticazioneService;
 import com.noleggiomezzi.exceptions.CredenzialiErrateException;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class LoginController {
     
     private AutenticazioneService authService;

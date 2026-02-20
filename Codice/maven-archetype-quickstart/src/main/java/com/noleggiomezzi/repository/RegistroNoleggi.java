@@ -2,9 +2,13 @@ package com.noleggiomezzi.repository;
 
 import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.model.Noleggio;
+import com.noleggiomezzi.repository.interfacce.INoleggioRepository;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
+@Repository
 public class RegistroNoleggi implements INoleggioRepository {
 
     private HashMap<Integer, Noleggio> mappa = new HashMap<>();

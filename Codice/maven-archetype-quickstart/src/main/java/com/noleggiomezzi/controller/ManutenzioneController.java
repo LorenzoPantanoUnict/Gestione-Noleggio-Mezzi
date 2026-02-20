@@ -4,10 +4,13 @@ import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
 import com.noleggiomezzi.model.InterventoManutenzione;
 import com.noleggiomezzi.model.Mezzo;
-import com.noleggiomezzi.repository.IMezzoRepository;
+import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
 
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class ManutenzioneController {
 
     private IMezzoRepository catalogoMezzi;

@@ -4,14 +4,18 @@ import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.DateRange;
 import com.noleggiomezzi.model.StatoMezzo;
 import com.noleggiomezzi.model.TipoMezzo;
+import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
 
+@Repository
 public class CatalogoMezzi implements IMezzoRepository {
 
     private HashMap<Integer, Mezzo> mappa = new HashMap<>();
