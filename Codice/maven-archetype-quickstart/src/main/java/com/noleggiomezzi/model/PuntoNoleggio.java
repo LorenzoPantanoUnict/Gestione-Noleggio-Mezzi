@@ -47,7 +47,7 @@ public class PuntoNoleggio {
         }
 
         inventario.add(m);
-        m.setStatoDisponibile();
+        m.rendiDisponibile();
 
         m.setPuntoNoleggio(this);
     }
@@ -56,7 +56,7 @@ public class PuntoNoleggio {
 
         inventario.remove(m);
         
-        m.setStatoNoleggiato();
+        m.noleggia();
     }
 
 

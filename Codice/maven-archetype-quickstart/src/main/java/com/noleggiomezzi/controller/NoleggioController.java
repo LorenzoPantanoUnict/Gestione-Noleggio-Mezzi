@@ -45,7 +45,7 @@ public class NoleggioController {
 
         Noleggio n = new Noleggio( cliente, mezzo, tariffa, puntoNoleggio);
         
-        mezzo.setStatoNoleggiato();
+        mezzo.noleggia();
 
         registroNoleggi.aggiungiNoleggio(n);
 

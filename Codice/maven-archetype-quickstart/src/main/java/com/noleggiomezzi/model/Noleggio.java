@@ -84,6 +84,6 @@ public class Noleggio {
     //Setters
 
     public void setLivelloCarica(double livelloCarica) {
-        this.mezzo.setLivelloCarica(livelloCarica);
+        this.mezzo.aggiornaLivelloCarica(livelloCarica);
     }
 }

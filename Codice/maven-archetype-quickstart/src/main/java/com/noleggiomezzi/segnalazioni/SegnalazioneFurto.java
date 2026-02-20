@@ -13,7 +13,7 @@ public class SegnalazioneFurto extends Segnalazione {
 
     @Override
     public void aggiornaStatoMezzo(Mezzo m) {
-        m.setStatoRubato();
+        m.segnalaFurto();
     }
 
     @Override

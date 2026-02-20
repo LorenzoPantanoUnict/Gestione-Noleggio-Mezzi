@@ -27,8 +27,8 @@ public class ChiusuraNoleggio
                         durata);
 
         Mezzo m = n.getMezzo();
-        m.setLivelloCarica(livelloCarica);
-        m.setStatoDisponibile();
+        m.aggiornaLivelloCarica(livelloCarica);
+        m.rendiDisponibile();
 
         Cliente c = n.getCliente();
         return c.addebbitaImporto(costo);
