@@ -67,6 +67,10 @@ public class Cliente {
         return email;
     }
     
+    public void riattivaAccount() {
+        affidabilita = 1;
+    }
+
     //Setters
     
 }

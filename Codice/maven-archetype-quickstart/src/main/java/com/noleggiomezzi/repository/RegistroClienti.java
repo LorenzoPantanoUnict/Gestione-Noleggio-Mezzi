@@ -23,7 +23,13 @@ public class RegistroClienti {
 
         return instance;
     }
-    
+    public boolean emailEsistente(String email) {
+    return mappaClienti.values()
+            .stream()
+            .anyMatch(c ->
+                c.getEmail().equals(email));
+}
+
     public Cliente getCliente(int id) {
         return mappaClienti.get(id);
     }

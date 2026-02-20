@@ -64,9 +64,21 @@ public class PuntoNoleggio {
         return inventario.size() >= capacitaMassima;
     }
 
-    public int getMezziDisponibili() {
-        return inventario.size();
+   public List<Mezzo> getListaMezziDisponibili() {
+
+    List<Mezzo> disponibili =
+            new ArrayList<>();
+
+    for (Mezzo m : inventario) {
+
+        if (m.isDisponibile()) {
+            disponibili.add(m);
+        }
     }
+
+    return disponibili;
+}
+
 
     public int getId() {
         return id;
@@ -80,7 +92,4 @@ public class PuntoNoleggio {
         return indirizzo;
     }
 
-    public List<Mezzo> getInventario() {
-        return inventario;
-    }
 }
