@@ -9,7 +9,10 @@ import com.noleggiomezzi.utility.MezzoBuilder;
 public class MezzoController {
 
     private CatalogoMezzi catalogoMezzi;
-    private MezzoBuilder mezzoBuilder;
+
+    public MezzoController(CatalogoMezzi catalogoMezzi) {
+        this.catalogoMezzi = catalogoMezzi;
+    }
     
     public void aggiungiNuovoMezzo(int id, String marca, String modello, 
                             int anno, int cilindrata, int posti,
@@ -22,6 +25,8 @@ public class MezzoController {
 
         TipoMezzo tipoMezzo = catalogoMezzi.getTipoMezzo(tipo);
         
+        MezzoBuilder mezzoBuilder = new MezzoBuilder();
+
         Mezzo nuovoMezzo = mezzoBuilder.conId(id)
                                         .diMarca(marca)
                                         .modello(modello)

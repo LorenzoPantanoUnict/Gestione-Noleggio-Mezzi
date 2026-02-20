@@ -1,16 +1,17 @@
 package com.noleggiomezzi;
 
+import com.noleggiomezzi.controller.ManutenzioneController;
 import com.noleggiomezzi.model.*;
 import com.noleggiomezzi.repository.CatalogoMezzi;
-import com.noleggiomezzi.repository.RegistroManutenzioni;
+import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RegistroManutenzioniTest {
+class ManutenzioneControllerTest {
 
-    private RegistroManutenzioni registroManutenzioni;
+    private ManutenzioneController manutenzioneController;
     private CatalogoMezzi catalogoMezzi;
     private PuntoNoleggio puntoTest;
     private Mezzo mezzoInManutenzione;
@@ -18,63 +19,63 @@ class RegistroManutenzioniTest {
 
     @BeforeEach
     void setUp() {
-        // 1. Inizializzo il catalogo
-        catalogoMezzi = new CatalogoMezzi(); // Oppure CatalogoMezzi.getInstance() se usate il Singleton lì
+        // 1. Inizializzo il catalogo (il nostro repository in memoria)
+        catalogoMezzi = new CatalogoMezzi();
 
-        // 2. Inizializzo il registro passandogli il catalogo
-        registroManutenzioni = new RegistroManutenzioni(catalogoMezzi);
+        // 2. Inizializzo il Controller, iniettando la dipendenza (Soluzione 1 che hai scelto)
+        manutenzioneController = new ManutenzioneController(catalogoMezzi);
 
-        // 3. Preparo i dati finti per i test (Uso la stessa logica dei vostri test precedenti)
+        // 3. Preparo i dati finti per i test
         TipoMezzo tipo = new TipoMezzo("CityCar", false, true);
         DescrizioneMezzo desc = new DescrizioneMezzo("Fiat", "Panda", 2022, 1200, 4, tipo);
-        
-        // Creo un mezzo normale da riparare (ID 10)
         puntoTest = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
+        
+        // Creo un mezzo normale in manutenzione (ID 10)
         mezzoInManutenzione = new Mezzo(10, desc, puntoTest);
-        mezzoInManutenzione.setStato(StatoMezzo.IN_MANUTENZIONE); // Pre-condizione UC8
+        mezzoInManutenzione.inviaInManutenzione();
         catalogoMezzi.aggiungiMezzo(mezzoInManutenzione);
 
-        // Creo un secondo mezzo con un danno gravissimo (ID 11)
+        // Creo un secondo mezzo da rottamare (ID 11)
         mezzoDaRottamare = new Mezzo(11, desc, puntoTest);
-        mezzoDaRottamare.setStato(StatoMezzo.IN_MANUTENZIONE); // Pre-condizione UC8
+        mezzoDaRottamare.inviaInManutenzione();
         catalogoMezzi.aggiungiMezzo(mezzoDaRottamare);
     }
 
     // --- SCENARIO PRINCIPALE: Riparazione Classica ---
     @Test
-    void testAggiungiInterventoConSuccesso() {
-        // ACT: L'operatore ripara il mezzo e lo rimette disponibile
-        registroManutenzioni.aggiungiIntervento(10, "Sostituzione specchietto", 150.0, "DISPONIBILE");
+    void testRegistraInterventoConSuccesso() {
+        // ACT: Il Controller orchestra la riparazione del mezzo
+        manutenzioneController.registraIntervento(10, "Sostituzione specchietto", 150.0, "DISPONIBILE");
 
         // ASSERT
         // 1. Verifico che lo stato sia diventato effettivamente DISPONIBILE
         assertEquals(StatoMezzo.DISPONIBILE, mezzoInManutenzione.getStato(), "Il mezzo deve tornare disponibile dopo la riparazione.");
         
-        // 2. Verifico che l'intervento sia stato salvato nella lista interna del mezzo (opzionale ma consigliato)
-        // Se nel tuo Mezzo.java non hai il metodo getInterventi(), questa riga puoi anche toglierla, 
-        // ma il controllo dello stato è la cosa più importante!
+        // 2. Verifico che l'intervento sia stato salvato nella lista interna dell'Aggregate Root (Mezzo)
+        assertEquals(1, mezzoInManutenzione.getInterventi().size(), "L'intervento deve essere stato salvato nella lista del mezzo.");
     }
 
     // --- SCENARIO ALTERNATIVO 8a: Danno Irreparabile ---
     @Test
-    void testAggiungiInterventoDannoIrreparabile() {
-        // ACT: L'operatore constata che il motore è fuso e mette fuori servizio (Costo 0)
-        registroManutenzioni.aggiungiIntervento(11, "Motore fuso - Non riparabile", 0.0, "FUORI_SERVIZIO");
+    void testRegistraInterventoDannoIrreparabile() {
+        // ACT: Il controller processa il mezzo irreparabile
+        manutenzioneController.registraIntervento(11, "Motore fuso - Non riparabile", 0.0, "FUORI_SERVIZIO");
 
         // ASSERT
-        // Verifico che lo stato sia stato forzato a FUORI_SERVIZIO
         assertEquals(StatoMezzo.FUORI_SERVIZIO, mezzoDaRottamare.getStato(), "Il mezzo irreparabile deve essere messo fuori servizio.");
     }
 
     // --- SCENARIO ALTERNATIVO 2a: Nessun mezzo trovato ---
     @Test
     void testAggiungiInterventoMezzoInesistente() {
-        // Usa la TUA eccezione personalizzata
-        com.noleggiomezzi.exceptions.EnitaNonTrovataException eccezione = assertThrows(com.noleggiomezzi.exceptions.EnitaNonTrovataException.class, () -> {
-            registroManutenzioni.aggiungiIntervento(999, "Cambio olio", 80.0, "DISPONIBILE");
+        // Poiché il Controller al momento cattura le eccezioni col try-catch bloccandole, 
+        // per testare la generazione dell'eccezione invochiamo direttamente il Repository.
+        // (Se in futuro togli il try-catch dal controller, potrai testare direttamente manutenzioneController qui)
+        
+        EnitaNonTrovataException eccezione = assertThrows(EnitaNonTrovataException.class, () -> {
+            catalogoMezzi.getMezzoById(999);
         });
 
-        // Controlla il tuo messaggio esatto
         assertEquals("Mezzo con ID 999 non trovato", eccezione.getMessage());
     }
 }

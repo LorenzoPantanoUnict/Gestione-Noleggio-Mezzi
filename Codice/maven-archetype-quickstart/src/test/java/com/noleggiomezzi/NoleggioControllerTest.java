@@ -85,7 +85,7 @@ class NoleggioControllerTest {
         Mezzo m = preparaMezzo(202, true);
         
         // Simulo che il mezzo sia rotto o già noleggiato
-        m.setStato(StatoMezzo.IN_MANUTENZIONE);
+        m.inviaInManutenzione();
 
         // ACT & ASSERT
         Exception eccezione = assertThrows(RuntimeException.class, () -> {

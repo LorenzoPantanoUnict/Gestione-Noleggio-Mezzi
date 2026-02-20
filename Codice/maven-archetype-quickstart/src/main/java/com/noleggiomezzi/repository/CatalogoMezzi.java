@@ -17,7 +17,7 @@ public class CatalogoMezzi implements IMezzoRepository {
     private HashMap<Integer, Mezzo> mappa = new HashMap<>();
     private CatalogoTipoMezzi catalogoTipoMezzi;
 
-    public Mezzo getMezzo(int id) throws EnitaNonTrovataException {
+    public Mezzo getMezzoById(int id) throws EnitaNonTrovataException {
         Mezzo m = mappa.get(id);
         if (m == null) {
             throw new EnitaNonTrovataException("Mezzo con ID " + id + " non trovato");
@@ -30,7 +30,7 @@ public class CatalogoMezzi implements IMezzoRepository {
     }
 
     public Mezzo getMezzoSeValido(int idMezzo) {
-        Mezzo m = getMezzo(idMezzo);
+        Mezzo m = getMezzoById(idMezzo);
         if (m == null || !m.isDisponibile() ) {
             throw new EnitaNonTrovataException("Mezzo non trovato o non disponibile");
         }
@@ -66,11 +66,4 @@ public class CatalogoMezzi implements IMezzoRepository {
         return disponibili;
     }
 
-    public boolean aggiornaStatoMezzo(Mezzo mezzo, StatoMezzo nuovoStato) {
-        if (mappa.containsKey(mezzo.getId())) {
-            mezzo.setStato(nuovoStato);
-            return true;
-        }
-        return false;
-    }
 }

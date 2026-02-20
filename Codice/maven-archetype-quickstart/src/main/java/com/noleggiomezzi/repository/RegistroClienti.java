@@ -47,16 +47,4 @@ public class RegistroClienti implements IClienteRepository {
         mappaClienti.remove(id);
     }
 
-    public int getClientiSospesi() {
-
-        int count = 0;
-
-        for (Cliente c : mappaClienti.values()) {
-            if (!c.isAffidabile()) {
-                count++;
-            }
-        }
-
-        return count;
-    }
 }

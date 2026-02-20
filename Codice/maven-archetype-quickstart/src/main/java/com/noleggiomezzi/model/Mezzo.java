@@ -34,10 +34,6 @@ public class Mezzo {
         this.puntoNoleggio = punto;
     }
     
-    public void setStato(StatoMezzo stato) {
-        this.stato = stato;
-    }
-    
     // Cambimenti di stato  per il mezzo
     
     public void inviaInManutenzione() {

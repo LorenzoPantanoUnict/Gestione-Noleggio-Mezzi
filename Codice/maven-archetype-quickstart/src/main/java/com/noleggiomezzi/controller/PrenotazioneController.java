@@ -33,7 +33,7 @@ public class PrenotazioneController {
         
         registroPrenotazioni.aggiungiPrenotazione(nuovaPrenotazione);
 
-        catalogoMezzi.aggiornaStatoMezzo(mezzo, StatoMezzo.NOLEGGIATO);
+        mezzo.noleggia();
         
         System.out.println("SUCCESSO: Prenotazione Confermata!");
         System.out.println("- Codice PNR: " + nuovaPrenotazione.getPnr());

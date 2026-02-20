@@ -39,7 +39,7 @@ class PrenotazioneControllerTest {
         // 3. Creo un mezzo e lo metto nel catalogo come DISPONIBILE
         mezzoDisponibile = new Mezzo(100, desc, puntoTest);
         mezzoDisponibile.setPuntoNoleggio(sede);
-        mezzoDisponibile.setStato(StatoMezzo.DISPONIBILE);
+        mezzoDisponibile.rendiDisponibile();
         catalogoMezzi.aggiungiMezzo(mezzoDisponibile);
 
         // 4. Preparo il Cliente
@@ -77,7 +77,7 @@ class PrenotazioneControllerTest {
     @Test
     void testRicercaFallitaNessunaDisponibilita() {
         // ARRANGE: Simulo che qualcuno abbia appena noleggiato l'unica auto disponibile
-        mezzoDisponibile.setStato(StatoMezzo.NOLEGGIATO);
+        mezzoDisponibile.noleggia();
 
         // ACT & ASSERT: Provo a cercare un'auto in quella sede e mi aspetto l'eccezione
         NessunaDisponibilitaException eccezione = assertThrows(NessunaDisponibilitaException.class, () -> {

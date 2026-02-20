@@ -17,15 +17,15 @@ public class ClienteController {
 
     public void registraCliente(String nome, String cognome, String email) {
         
-        Cliente c = new Cliente( nome, cognome, email);
-
+        
         if(email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email non valida");
         }
-
+        
         if(!EmailValidator.getInstance().isValid(email)) {
             throw new IllegalArgumentException("Email non valida");
         }
+        Cliente c = new Cliente( nome, cognome, email);
         
         registroClienti.aggiungiCliente(c);
     }
