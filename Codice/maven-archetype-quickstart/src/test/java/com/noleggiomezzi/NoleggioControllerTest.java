@@ -10,6 +10,9 @@ import com.noleggiomezzi.model.tariffe.TariffaOraria;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
+import com.noleggiomezzi.service.IChiusuraNoleggioService;
+import com.noleggiomezzi.service.ChiusuraNoleggio;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +35,11 @@ class NoleggioControllerTest {
         registroClienti = RegistroClienti.getInstance();
         registroNoleggi = new RegistroNoleggi();
         catalogoMezzi = new CatalogoMezzi();
+        IChiusuraNoleggioService chiusuraService = new ChiusuraNoleggio();
+
 
         // 2. Inizializzazione Controller
-        controller = new NoleggioController(registroClienti, registroNoleggi, catalogoMezzi);
+        controller = new NoleggioController(registroClienti, registroNoleggi, catalogoMezzi, chiusuraService);
         clienteController = new ClienteController(registroClienti);
         // 3. Dati di supporto comuni (Punto Noleggio e Tariffa)
         puntoTest = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
