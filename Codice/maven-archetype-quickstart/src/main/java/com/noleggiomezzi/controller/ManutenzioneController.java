@@ -30,6 +30,8 @@ public class ManutenzioneController {
                 m.inviaInManutenzione();
             } else if ("DISPONIBILE".equals(nuovoStato)) {
                 m.rendiDisponibile();
+            } else if ("FUORI_SERVIZIO".equals(nuovoStato)) { // <-- AGGIUNGI QUESTO
+                m.impostaFuoriServizio();
             }
             
             System.out.println("SUCCESSO: Manutenzione registrata. Il mezzo " + idMezzo + " è ora " + nuovoStato + ".");
