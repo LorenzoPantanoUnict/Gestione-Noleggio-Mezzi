@@ -4,12 +4,12 @@ import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.TipoMezzo;
 import com.noleggiomezzi.repository.CatalogoMezzi;
-import com.noleggiomezzi.utility.MezzoFactory;
+import com.noleggiomezzi.utility.MezzoBuilder;
 
 public class MezzoController {
 
     private CatalogoMezzi catalogoMezzi;
-    private MezzoFactory mezzoFactory;
+    private MezzoBuilder mezzoBuilder;
     
     public void aggiungiNuovoMezzo(int id, String marca, String modello, 
                             int anno, int cilindrata, int posti,
@@ -22,8 +22,15 @@ public class MezzoController {
 
         TipoMezzo tipoMezzo = catalogoMezzi.getTipoMezzo(tipo);
         
-        Mezzo nuovoMezzo = mezzoFactory.creaMezzo(id, marca, modello, anno, cilindrata,
-                                                 posti, tipoMezzo, puntoNoleggio);
+        Mezzo nuovoMezzo = mezzoBuilder.conId(id)
+                                        .diMarca(marca)
+                                        .modello(modello)
+                                        .immatricolatoNel(anno)
+                                        .conCilindrata(cilindrata)
+                                        .conNumeroPosti(posti)
+                                        .diTipo(tipoMezzo)
+                                        .allocatoPresso(puntoNoleggio)
+                                        .build();
 
         catalogoMezzi.aggiungiMezzo(nuovoMezzo);
     }
