@@ -8,7 +8,7 @@ import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.repository.CatalogoMezzi;
-import com.noleggiomezzi.repository.RegistroClienti;
+import com.noleggiomezzi.repository.IClienteRepository;
 import com.noleggiomezzi.repository.RegistroNoleggi;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 import com.noleggiomezzi.service.ChiusuraNoleggio;
@@ -17,11 +17,11 @@ import com.noleggiomezzi.service.IChiusuraNoleggioService;
 
 public class NoleggioController {
     private IChiusuraNoleggioService chiusuraService;
-    private RegistroClienti registroClienti;
+    private IClienteRepository registroClienti;
     private RegistroNoleggi registroNoleggi;
     private CatalogoMezzi catalogoMezzi;
 
-   public NoleggioController(RegistroClienti rc,
+   public NoleggioController(IClienteRepository rc,
                           RegistroNoleggi rn,
                           CatalogoMezzi cm) {
 
@@ -35,7 +35,7 @@ public class NoleggioController {
 
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
-        Cliente cliente = registroClienti.getCliente(idCliente);
+        Cliente cliente = registroClienti.getClienteById(idCliente);
 
         Mezzo mezzo = catalogoMezzi.getMezzoSeValido(idMezzo);
 
@@ -54,7 +54,7 @@ public class NoleggioController {
 
     public void concludiNoleggio(int idNoleggio, int kmFinali, double livelloCarica) {
         Noleggio n =
-            registroNoleggi.getNoleggio(idNoleggio);
+            registroNoleggi.getNoleggioById(idNoleggio);
 
         boolean pagamentoEffettuato =
             chiusuraService.gestisciChiusura(
@@ -78,7 +78,7 @@ public class NoleggioController {
 
     public void segnalaFurto(int idNoleggio, String descrizione){
 
-        Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
+        Noleggio n = registroNoleggi.getNoleggioById(idNoleggio);
 
         SegnalazioneFurto segnalazione = new SegnalazioneFurto(idNoleggio, descrizione);
 

@@ -48,7 +48,7 @@ class NoleggioControllerTest {
         clienteController.registraCliente("Mario", "Rossi", "mario@email.com");
 
         // ASSERT
-        Cliente c = registroClienti.getCliente(100);
+        Cliente c = registroClienti.getClienteById(100);
         assertNotNull(c, "Il cliente dovrebbe essere stato salvato nel registro");
         assertEquals("Mario", c.getNome(), "Il nome salvato non corrisponde");
     }
@@ -70,7 +70,7 @@ class NoleggioControllerTest {
         assertFalse(m.isDisponibile(), "Il mezzo noleggiato non deve essere disponibile");
         
         // Verifico che il noleggio esista nel registro
-        assertNotNull(registroNoleggi.getNoleggio(idNoleggio));
+        assertNotNull(registroNoleggi.getNoleggioById(idNoleggio));
     }
 
     @Test
@@ -117,7 +117,7 @@ class NoleggioControllerTest {
         int idNoleggio = controller.avviaNoleggio(104, 204, tariffaFissa, puntoTest);
         
         // Recupero l'oggetto noleggio per controlli successivi
-        Noleggio n = registroNoleggi.getNoleggio(idNoleggio);
+        Noleggio n = registroNoleggi.getNoleggioById(idNoleggio);
 
         // ACT
         // Concludo il noleggio: km percorsi 50, carica residua 80%
@@ -146,7 +146,7 @@ class NoleggioControllerTest {
         TipoMezzo tipo = new TipoMezzo("CityCar", false, true);
         DescrizioneMezzo desc = new DescrizioneMezzo("Fiat", "Panda", 2022, 1200, 4, tipo);
         
-        Mezzo m = new Mezzo(id, desc);
+        Mezzo m = new Mezzo(id, desc, puntoTest);
         catalogoMezzi.aggiungiMezzo(m);
         return m;
     }

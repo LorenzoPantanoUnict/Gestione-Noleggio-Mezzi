@@ -22,12 +22,14 @@ class PrenotazioneControllerTest {
     private PuntoNoleggio sede;
     private TipoMezzo tipoRichiesto;
     private DateRange periodoRichiesto;
+    PuntoNoleggio puntoTest;
 
     @BeforeEach
     void setUp() {
         // 1. Inizializzo il catalogo e il controller
         catalogoMezzi = new CatalogoMezzi();
         controller = new PrenotazioneController(catalogoMezzi);
+        puntoTest = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
         
         // 2. Preparo i dati finti per il test (Sede, Tipo e Cliente)
         sede = new PuntoNoleggio(1, "Milano Centrale", "Piazza Duca D'Aosta", 50);
@@ -35,7 +37,7 @@ class PrenotazioneControllerTest {
         DescrizioneMezzo desc = new DescrizioneMezzo("Jeep", "Renegade", 2023, 1600, 5, tipoRichiesto);
         
         // 3. Creo un mezzo e lo metto nel catalogo come DISPONIBILE
-        mezzoDisponibile = new Mezzo(100, desc);
+        mezzoDisponibile = new Mezzo(100, desc, puntoTest);
         mezzoDisponibile.setPuntoNoleggio(sede);
         mezzoDisponibile.setStato(StatoMezzo.DISPONIBILE);
         catalogoMezzi.aggiungiMezzo(mezzoDisponibile);

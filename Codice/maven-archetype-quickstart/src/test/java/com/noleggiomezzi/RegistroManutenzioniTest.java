@@ -12,6 +12,7 @@ class RegistroManutenzioniTest {
 
     private RegistroManutenzioni registroManutenzioni;
     private CatalogoMezzi catalogoMezzi;
+    private PuntoNoleggio puntoTest;
     private Mezzo mezzoInManutenzione;
     private Mezzo mezzoDaRottamare;
 
@@ -28,12 +29,13 @@ class RegistroManutenzioniTest {
         DescrizioneMezzo desc = new DescrizioneMezzo("Fiat", "Panda", 2022, 1200, 4, tipo);
         
         // Creo un mezzo normale da riparare (ID 10)
-        mezzoInManutenzione = new Mezzo(10, desc);
+        puntoTest = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
+        mezzoInManutenzione = new Mezzo(10, desc, puntoTest);
         mezzoInManutenzione.setStato(StatoMezzo.IN_MANUTENZIONE); // Pre-condizione UC8
         catalogoMezzi.aggiungiMezzo(mezzoInManutenzione);
 
         // Creo un secondo mezzo con un danno gravissimo (ID 11)
-        mezzoDaRottamare = new Mezzo(11, desc);
+        mezzoDaRottamare = new Mezzo(11, desc, puntoTest);
         mezzoDaRottamare.setStato(StatoMezzo.IN_MANUTENZIONE); // Pre-condizione UC8
         catalogoMezzi.aggiungiMezzo(mezzoDaRottamare);
     }

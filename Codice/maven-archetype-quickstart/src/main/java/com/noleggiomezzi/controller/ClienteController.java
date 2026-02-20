@@ -1,16 +1,16 @@
 package com.noleggiomezzi.controller;
 
 import com.noleggiomezzi.model.Cliente;
-import com.noleggiomezzi.repository.RegistroClienti;
+import com.noleggiomezzi.repository.IClienteRepository;
 
 //Validatore
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class ClienteController {
 
-    private RegistroClienti registroClienti;
+    private IClienteRepository registroClienti;
 
-    public ClienteController(RegistroClienti rc) {
+    public ClienteController(IClienteRepository rc) {
         this.registroClienti = rc;
     }
 

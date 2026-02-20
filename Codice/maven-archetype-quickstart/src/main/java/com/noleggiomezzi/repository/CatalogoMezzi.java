@@ -12,7 +12,7 @@ import java.util.List;
 import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
 
-public class CatalogoMezzi  {
+public class CatalogoMezzi implements IMezzoRepository {
 
     private HashMap<Integer, Mezzo> mappa = new HashMap<>();
     private CatalogoTipoMezzi catalogoTipoMezzi;

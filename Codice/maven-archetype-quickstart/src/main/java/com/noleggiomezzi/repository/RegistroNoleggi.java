@@ -5,12 +5,12 @@ import com.noleggiomezzi.model.Noleggio;
 
 import java.util.HashMap;
 
-public class RegistroNoleggi {
+public class RegistroNoleggi implements INoleggioRepository {
 
     private HashMap<Integer, Noleggio> mappa = new HashMap<>();
 
 
-    public Noleggio getNoleggio(int id) {
+    public Noleggio getNoleggioById(int id) {
         
         Noleggio n = mappa.get(id);
         

@@ -25,14 +25,7 @@ public class Mezzo {
         this.interventi = new ArrayList<>();
     }
 
-    // public Mezzo(int id, DescrizioneMezzo descrizione) {
-    //     this.id = id;
-    //     this.descrizione = descrizione;
-    //     this.stato = StatoMezzo.DISPONIBILE;
-    //     this.livelloCarica = 100.0;
-    //     this.interventi = new ArrayList<>(); 
-    // }
-
+    
     public void aggiungiIntervento(InterventoManutenzione i) {
         this.interventi.add(i);
     }

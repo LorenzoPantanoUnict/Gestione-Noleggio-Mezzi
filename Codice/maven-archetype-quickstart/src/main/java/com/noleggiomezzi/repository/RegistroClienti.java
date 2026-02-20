@@ -6,7 +6,7 @@ import java.util.Map;
 import com.noleggiomezzi.model.Cliente;
 
 
-public class RegistroClienti {
+public class RegistroClienti implements IClienteRepository {
 
     private static RegistroClienti instance;
 
@@ -23,14 +23,15 @@ public class RegistroClienti {
 
         return instance;
     }
-    public boolean emailEsistente(String email) {
-    return mappaClienti.values()
-            .stream()
-            .anyMatch(c ->
-                c.getEmail().equals(email));
-}
 
-    public Cliente getCliente(int id) {
+    public boolean emailEsistente(String email) {
+        return mappaClienti.values()
+                .stream()
+                .anyMatch(c ->
+                    c.getEmail().equals(email));
+    }
+
+    public Cliente getClienteById(int id) {
         return mappaClienti.get(id);
     }
 
