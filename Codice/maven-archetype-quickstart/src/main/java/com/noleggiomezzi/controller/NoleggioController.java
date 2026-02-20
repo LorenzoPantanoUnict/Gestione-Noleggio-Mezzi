@@ -7,30 +7,28 @@ import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.tariffe.ITariffa;
-import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.IClienteRepository;
-import com.noleggiomezzi.repository.RegistroNoleggi;
+import com.noleggiomezzi.repository.IMezzoRepository;
+import com.noleggiomezzi.repository.INoleggioRepository;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
-import com.noleggiomezzi.service.ChiusuraNoleggio;
 import com.noleggiomezzi.service.IChiusuraNoleggioService;
 
 
 public class NoleggioController {
     private IChiusuraNoleggioService chiusuraService;
     private IClienteRepository registroClienti;
-    private RegistroNoleggi registroNoleggi;
-    private CatalogoMezzi catalogoMezzi;
+    private INoleggioRepository registroNoleggi;
+    private IMezzoRepository catalogoMezzi;
 
    public NoleggioController(IClienteRepository rc,
-                          RegistroNoleggi rn,
-                          CatalogoMezzi cm) {
+                          INoleggioRepository rn,
+                          IMezzoRepository cm,
+                          IChiusuraNoleggioService cs) {
 
         this.registroClienti = rc;
         this.registroNoleggi = rn;
         this.catalogoMezzi = cm;
-
-        // inizializzazione chiusuraService
-        this.chiusuraService = new ChiusuraNoleggio();
+        this.chiusuraService = cs;
     }
 
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
