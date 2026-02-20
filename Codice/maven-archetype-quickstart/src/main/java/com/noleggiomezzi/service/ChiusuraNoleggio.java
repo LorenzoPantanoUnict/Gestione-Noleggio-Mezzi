@@ -1,4 +1,4 @@
-package com.noleggiomezzi.mediator;
+package com.noleggiomezzi.service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -7,8 +7,8 @@ import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 
-public class RiconsegnaMediatorImpl
-        implements RiconsegnaMediator {
+public class ChiusuraNoleggio
+        implements IChiusuraNoleggioService {
 
     @Override
     public boolean gestisciChiusura(

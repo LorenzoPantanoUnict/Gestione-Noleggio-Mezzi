@@ -1,6 +1,7 @@
 package com.noleggiomezzi;
 
 import com.noleggiomezzi.controller.NoleggioController;
+import com.noleggiomezzi.controller.ClienteController;
 import com.noleggiomezzi.model.*;
 import com.noleggiomezzi.model.enums.StatoNoleggio;
 import com.noleggiomezzi.model.tariffe.ITariffa;
@@ -23,6 +24,7 @@ class NoleggioControllerTest {
     private CatalogoMezzi catalogoMezzi;
     private PuntoNoleggio puntoTest;
     private ITariffa tariffaStandard;
+    ClienteController clienteController;
 
     @BeforeEach
     void setUp() {
@@ -33,7 +35,7 @@ class NoleggioControllerTest {
 
         // 2. Inizializzazione Controller
         controller = new NoleggioController(registroClienti, registroNoleggi, catalogoMezzi);
-
+        clienteController = new ClienteController(registroClienti);
         // 3. Dati di supporto comuni (Punto Noleggio e Tariffa)
         puntoTest = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
         tariffaStandard = new TariffaOraria();
@@ -43,7 +45,7 @@ class NoleggioControllerTest {
     @Test
     void testRegistrazioneCliente() {
         // ACT
-        controller.registraCliente("Mario", "Rossi", "mario@email.com");
+        clienteController.registraCliente("Mario", "Rossi", "mario@email.com");
 
         // ASSERT
         Cliente c = registroClienti.getCliente(100);

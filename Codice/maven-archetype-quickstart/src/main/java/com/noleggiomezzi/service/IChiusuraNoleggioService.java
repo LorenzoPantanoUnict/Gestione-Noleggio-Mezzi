@@ -1,8 +1,8 @@
-package com.noleggiomezzi.mediator;
+package com.noleggiomezzi.service;
 
 import com.noleggiomezzi.model.Noleggio;
 
-public interface RiconsegnaMediator {
+public interface IChiusuraNoleggioService {
 
     /**
      * Coordina la chiusura del noleggio

@@ -11,15 +11,12 @@ import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroClienti;
 import com.noleggiomezzi.repository.RegistroNoleggi;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
-import com.noleggiomezzi.mediator.RiconsegnaMediator;
-import com.noleggiomezzi.mediator.RiconsegnaMediatorImpl;
-
-//Validatore
-import org.apache.commons.validator.routines.EmailValidator;
+import com.noleggiomezzi.service.ChiusuraNoleggio;
+import com.noleggiomezzi.service.IChiusuraNoleggioService;
 
 
 public class NoleggioController {
-    private RiconsegnaMediator mediator;
+    private IChiusuraNoleggioService chiusuraService;
     private RegistroClienti registroClienti;
     private RegistroNoleggi registroNoleggi;
     private CatalogoMezzi catalogoMezzi;
@@ -28,13 +25,13 @@ public class NoleggioController {
                           RegistroNoleggi rn,
                           CatalogoMezzi cm) {
 
-    this.registroClienti = rc;
-    this.registroNoleggi = rn;
-    this.catalogoMezzi = cm;
+        this.registroClienti = rc;
+        this.registroNoleggi = rn;
+        this.catalogoMezzi = cm;
 
-    // inizializzazione mediator
-    this.mediator = new RiconsegnaMediatorImpl();
-}
+        // inizializzazione chiusuraService
+        this.chiusuraService = new ChiusuraNoleggio();
+    }
 
     public int avviaNoleggio(int idCliente, int idMezzo, ITariffa tariffa, PuntoNoleggio puntoNoleggio) {
 
@@ -55,46 +52,29 @@ public class NoleggioController {
         return n.getId();
     }
 
- public void concludiNoleggio(int idNoleggio,
-                             int kmFinali,
-                             double livelloCarica) {
+    public void concludiNoleggio(int idNoleggio, int kmFinali, double livelloCarica) {
+        Noleggio n =
+            registroNoleggi.getNoleggio(idNoleggio);
 
-    Noleggio n =
-        registroNoleggi.getNoleggio(idNoleggio);
+        boolean pagamentoEffettuato =
+            chiusuraService.gestisciChiusura(
+                n,
+                kmFinali,
+                livelloCarica
+            );
 
-    boolean pagamentoEffettuato =
-        mediator.gestisciChiusura(
-            n,
-            kmFinali,
-            livelloCarica
-        );
-
-    if (!pagamentoEffettuato) {
-        throw new PagamentoException(
-            "Pagamento non riuscito");
-    }
-
-    n.chiudi();
-
-    System.out.println(
-        "Noleggio concluso con successo");
-}
-
-
-    public void registraCliente(String nome, String cognome, String email) {
-        
-        Cliente c = new Cliente( nome, cognome, email);
-
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email non valida");
+        if (!pagamentoEffettuato) {
+            throw new PagamentoException(
+                "Pagamento non riuscito");
         }
 
-        if(!EmailValidator.getInstance().isValid(email)) {
-            throw new IllegalArgumentException("Email non valida");
-        }
-        
-        registroClienti.aggiungiCliente(c);
+        n.chiudi();
+
+        System.out.println(
+            "Noleggio concluso con successo");
     }
+
+
 
     public void segnalaFurto(int idNoleggio, String descrizione){
 
