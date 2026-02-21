@@ -45,10 +45,11 @@ public class NoleggioController {
             @RequestParam("clienteId") int clienteId, 
             @RequestParam("mezzoId") int mezzoId,
             @RequestParam("tariffa") String tariffa, 
-            @RequestParam("puntoNoleggioId") int puntoNoleggioId) {
+            @RequestParam("puntoNoleggioId") int puntoNoleggioId,
+            @RequestParam(value = "extra", required = false) List<String> extraSelezionati) { 
             
         try {
-            noleggioService.avviaNoleggio(clienteId, mezzoId, tariffa, puntoNoleggioId);
+            noleggioService.avviaNoleggio(clienteId, mezzoId, tariffa, puntoNoleggioId, extraSelezionati);
             return "redirect:/avvia-noleggio?success=true";
         } catch (Exception e) {
             return "redirect:/avvia-noleggio?error=true";

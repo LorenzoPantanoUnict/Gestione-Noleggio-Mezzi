@@ -2,28 +2,24 @@ package com.noleggiomezzi.service;
 
 import com.noleggiomezzi.exceptions.PagamentoException;
 import com.noleggiomezzi.exceptions.StatoNonValidoException;
-import com.noleggiomezzi.model.Cliente;
-import com.noleggiomezzi.model.Mezzo;
-import com.noleggiomezzi.model.Noleggio;
-import com.noleggiomezzi.model.PuntoNoleggio;
+import com.noleggiomezzi.model.*;
 import com.noleggiomezzi.model.enums.StatoNoleggio;
+import com.noleggiomezzi.model.tariffe.AssicurazioneFurto;
 import com.noleggiomezzi.model.tariffe.ITariffa;
-import com.noleggiomezzi.repository.interfacce.IClienteRepository;
-import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
-import com.noleggiomezzi.repository.interfacce.INoleggioRepository;
-import com.noleggiomezzi.repository.interfacce.IPuntoNoleggioRepository;
+import com.noleggiomezzi.model.tariffe.PenaleGiovaneGuidatore;
+import com.noleggiomezzi.repository.interfacce.*;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
-import com.noleggiomezzi.repository.interfacce.ITariffaRepository;
 
-import java.util.stream.Collectors;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class NoleggioService {
-
-    private final IChiusuraNoleggioService chiusuraService;
+    
     private final IClienteRepository registroClienti;
     private final INoleggioRepository registroNoleggi;
     private final IMezzoRepository catalogoMezzi;
@@ -33,18 +29,16 @@ public class NoleggioService {
     public NoleggioService(IClienteRepository rc,
                           INoleggioRepository rn,
                           IMezzoRepository cm,
-                          IChiusuraNoleggioService cs,
                           IPuntoNoleggioRepository rp,
                           ITariffaRepository catalogoTariffe) {
         this.registroClienti = rc;
         this.registroNoleggi = rn;
         this.catalogoMezzi = cm;
-        this.chiusuraService = cs;
         this.catalogoTariffe = catalogoTariffe;
         this.registroPuntiNoleggio = rp;
     }
 
-    // --- NUOVI METODI PER IL CONTROLLER ---
+    // --- Metodi per il Controller 
 
     public List<Cliente> getTuttiIClienti() {
         return registroClienti.findAll();
@@ -64,73 +58,74 @@ public class NoleggioService {
         return catalogoTariffe.findAll();
     }
 
-    public int avviaNoleggio(int idCliente, int idMezzo, String nomeTariffa, int idPuntoNoleggio) {
+    // --- Logica Operativa ---
 
+    public int avviaNoleggio(int idCliente, int idMezzo, String nomeTariffa, int idPuntoNoleggio, List<String> extraSelezionati) {
+        
         Cliente cliente = registroClienti.getClienteById(idCliente);
-
         Mezzo mezzo = catalogoMezzi.getMezzoSeValido(idMezzo);
-
         PuntoNoleggio puntoNoleggio = registroPuntiNoleggio.getPuntoById(idPuntoNoleggio);
-
+        
         ITariffa tariffa = catalogoTariffe.getTariffaByName(nomeTariffa);
+
+        if (extraSelezionati != null) {
+            if (extraSelezionati.contains("ASSICURAZIONE_FURTO")) {
+                tariffa = new AssicurazioneFurto(tariffa);
+            }
+            if (extraSelezionati.contains("PENALE_GIOVANE")) {
+                tariffa = new PenaleGiovaneGuidatore(tariffa);
+            }
+        }
 
         if (!cliente.isAffidabile()) {
             throw new StatoNonValidoException("Cliente non abilitato a noleggiare");
         }
 
-        Noleggio n = new Noleggio( cliente, mezzo, tariffa, puntoNoleggio);
-        
+        Noleggio n = new Noleggio(cliente, mezzo, tariffa, puntoNoleggio);
         mezzo.noleggia();
-
         registroNoleggi.aggiungiNoleggio(n);
 
         return n.getId();
     }
 
     public void concludiNoleggio(int idNoleggio, int kmFinali, double livelloCarica) {
-        Noleggio n =
-            registroNoleggi.getNoleggioById(idNoleggio);
+        Noleggio n = registroNoleggi.getNoleggioById(idNoleggio);
 
-        boolean pagamentoEffettuato =
-            chiusuraService.gestisciChiusura(
-                n,
-                kmFinali,
-                livelloCarica
-            );
+        // Logica integrata da ChiusuraNoleggio
+        double durata = Duration.between(n.getDataInizio(), LocalDateTime.now()).toMinutes();
+        double costo = n.calcolaCostoFinale(kmFinali, durata);
+
+        Mezzo m = n.getMezzo();
+        m.aggiornaLivelloCarica(livelloCarica);
+        m.rendiDisponibile();
+
+        Cliente c = n.getCliente();
+        boolean pagamentoEffettuato = c.addebbitaImporto(costo);
 
         if (!pagamentoEffettuato) {
-            throw new PagamentoException(
-                "Pagamento non riuscito");
+            throw new PagamentoException("Pagamento non riuscito: credito insufficiente.");
         }
 
         n.chiudi();
-
-        System.out.println(
-            "Noleggio concluso con successo");
+        System.out.println("Noleggio concluso con successo. Costo: €" + costo);
     }
 
-
-
-    public void segnalaFurto(int idNoleggio, String descrizione){
-
+    public void segnalaFurto(int idNoleggio, String descrizione) {
         Noleggio n = registroNoleggi.getNoleggioById(idNoleggio);
-
         SegnalazioneFurto segnalazione = new SegnalazioneFurto(idNoleggio, descrizione);
 
         boolean pagamentoEffettuato = n.gestisciSegnalazione(segnalazione);
 
         if (!pagamentoEffettuato) {
-            throw new PagamentoException("Pagamento non riuscito");
+            throw new PagamentoException("Pagamento penale non riuscito");
         }
 
         n.chiudi();
     }
 
-    public List<Noleggio> noleggiAttivi(){
+    public List<Noleggio> noleggiAttivi() {
         return registroNoleggi.findAll().stream()
                 .filter(n -> n.getStatoNoleggio() == StatoNoleggio.ATTIVO)
                 .collect(Collectors.toList());
     }
-
-    
 }
