@@ -30,4 +30,9 @@ public class RegistroPuntiNoleggio implements IPuntoNoleggioRepository {
     public List<PuntoNoleggio> findAll() {
         return sedi;
     }
+
+    @Override
+    public void aggiungiPunto(PuntoNoleggio punto) {
+        sedi.add(punto);
+    }
 }

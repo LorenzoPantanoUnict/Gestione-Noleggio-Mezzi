@@ -7,13 +7,20 @@ import com.noleggiomezzi.repository.interfacce.INoleggioRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public class RegistroNoleggi implements INoleggioRepository {
 
-    private HashMap<Integer, Noleggio> mappa = new HashMap<>();
+    private HashMap<Integer, Noleggio> mappa;
 
+    public RegistroNoleggi(){
+        this.mappa = new HashMap<>();
 
+    }
+
+    @Override
     public Noleggio getNoleggioById(int id) {
         
         Noleggio n = mappa.get(id);
@@ -25,7 +32,13 @@ public class RegistroNoleggi implements INoleggioRepository {
         return n;
     }
 
+    @Override
     public void aggiungiNoleggio(Noleggio n) {
         mappa.put(n.getId(), n);
     }
+
+    @Override
+    public List<Noleggio> findAll() {
+        return new ArrayList<>(mappa.values());
+    }   
 }

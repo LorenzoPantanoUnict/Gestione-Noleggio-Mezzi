@@ -10,7 +10,7 @@ public class Cliente {
     private double credito;
 
     private static final int AFFIDABILITA_DEFAULT = 1;
-    private static final double CREDITO_DEFAULT = 0.0;
+    private static final double CREDITO_DEFAULT = 200.0;
 
     //Costruttori 
     public Cliente( String nome, String cognome, String email) {

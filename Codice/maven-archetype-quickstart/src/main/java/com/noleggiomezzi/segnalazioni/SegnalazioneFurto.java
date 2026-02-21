@@ -5,7 +5,7 @@ import com.noleggiomezzi.model.Mezzo;
 
 public class SegnalazioneFurto extends Segnalazione {
 
-    private static final double PERDITA_FURTO = 10000.0; // Valore fisso per esempio
+    private static final double PERDITA_FURTO = 100.0; // Valore fisso per esempio
 
     public SegnalazioneFurto(int idNoleggio, String descrizione) {
         super(idNoleggio, descrizione);

@@ -6,6 +6,7 @@ import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.Noleggio;
 import com.noleggiomezzi.model.PuntoNoleggio;
+import com.noleggiomezzi.model.enums.StatoNoleggio;
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.repository.interfacce.IClienteRepository;
 import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
@@ -13,6 +14,9 @@ import com.noleggiomezzi.repository.interfacce.INoleggioRepository;
 import com.noleggiomezzi.repository.interfacce.IPuntoNoleggioRepository;
 import com.noleggiomezzi.segnalazioni.SegnalazioneFurto;
 import com.noleggiomezzi.repository.interfacce.ITariffaRepository;
+
+import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -100,6 +104,12 @@ public class NoleggioService {
         }
 
         n.chiudi();
+    }
+
+    public List<Noleggio> noleggiAttivi(){
+        return registroNoleggi.findAll().stream()
+                .filter(n -> n.getStatoNoleggio() == StatoNoleggio.ATTIVO)
+                .collect(Collectors.toList());
     }
 
     

@@ -6,4 +6,5 @@ import java.util.List;
 public interface IPuntoNoleggioRepository {
     PuntoNoleggio getPuntoById(int id);
     List<PuntoNoleggio> findAll();
+    void aggiungiPunto(PuntoNoleggio punto);
 }
