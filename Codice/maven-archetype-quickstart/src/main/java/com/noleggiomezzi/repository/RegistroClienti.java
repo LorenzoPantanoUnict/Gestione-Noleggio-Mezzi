@@ -8,23 +8,20 @@ import com.noleggiomezzi.repository.interfacce.IClienteRepository;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class RegistroClienti implements IClienteRepository {
 
-    private static RegistroClienti instance;
-
     private Map<Integer, Cliente> mappaClienti;
 
-    private RegistroClienti() {
+    public RegistroClienti() {
         mappaClienti = new HashMap<>();
-    }
-    public static RegistroClienti getInstance() {
 
-        if (instance == null) {
-            instance = new RegistroClienti();
-        }
-
-        return instance;
+        // Dati di prova
+        Cliente c = new Cliente("Mario", "Rossi", "mario.rossi@email.it");
+        mappaClienti.put(c.getId(), c);
     }
 
     public boolean emailEsistente(String email) {
@@ -46,8 +43,8 @@ public class RegistroClienti implements IClienteRepository {
         return mappaClienti.containsKey(id);
     }
 
-    public void rimuoviCliente(int id) {
-        mappaClienti.remove(id);
+    public List<Cliente> findAll() {
+        return new ArrayList<>(mappaClienti.values());
     }
 
 }

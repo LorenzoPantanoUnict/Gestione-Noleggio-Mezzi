@@ -32,7 +32,7 @@ class NoleggioControllerTest {
     @BeforeEach
     void setUp() {
         // 1. Inizializzazione Repository
-        registroClienti = RegistroClienti.getInstance();
+        registroClienti = new RegistroClienti();
         registroNoleggi = new RegistroNoleggi();
         catalogoMezzi = new CatalogoMezzi();
         IChiusuraNoleggioService chiusuraService = new ChiusuraNoleggio();

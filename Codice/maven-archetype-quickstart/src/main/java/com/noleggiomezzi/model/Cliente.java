@@ -13,7 +13,6 @@ public class Cliente {
     private static final double CREDITO_DEFAULT = 0.0;
 
     //Costruttori 
-
     public Cliente( String nome, String cognome, String email) {
         this.id = counter++;
         this.nome = nome;
