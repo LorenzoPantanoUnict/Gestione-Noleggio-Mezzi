@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Cassiere - Noleggio Mezzi</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 0; }
+        .header { background-color: #343a40; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
+        
+        .card { background-color: white; border-radius: 8px; padding: 25px; text-align: center; text-decoration: none; color: inherit; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; border-top: 5px solid #007bff; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        
+        /* Colori personalizzati per i bordi delle card */
+        .card-noleggio { border-top-color: #28a745; }
+        .card-concludi { border-top-color: #17a2b8; }
+        .card-manutenzione { border-top-color: #ffc107; }
+        .card-furto { border-top-color: #dc3545; }
+        .card-catalogo { border-top-color: #6c757d; }
+        .card-cliente { border-top-color: #6610f2; }
+
+        .card h3 { margin-top: 0; font-size: 1.2rem; }
+        .card p { color: #666; font-size: 0.9rem; }
+        .icon { font-size: 2.5rem; margin-bottom: 15px; }
+        
+        .logout { text-align: right; padding-right: 20px; }
+        .logout a { color: #ff6b6b; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Centro Operativo Noleggi</h1>
+        <p>Benvenuto nella Dashboard di Gestione</p>
+        <div class="logout"><a href="/login">🚪 Esci (Logout)</a></div>
+    </div>
+
+    <div class="container">
+        <h2>Seleziona un'operazione</h2>
+        
+        <div class="grid-container">
+            <a href="/avvia-noleggio" class="card card-noleggio">
+                <div class="icon">🔑</div>
+                <h3>Avvia Noleggio</h3>
+                <p>Assegna un mezzo disponibile a un cliente registrato.</p>
+            </a>
+
+            <a href="/concludi-noleggio" class="card card-concludi">
+                <div class="icon">🏁</div>
+                <h3>Concludi Noleggio</h3>
+                <p>Registra il rientro di un mezzo e calcola l'addebito.</p>
+            </a>
+
+            <a href="/catalogo" class="card card-catalogo">
+                <div class="icon">📋</div>
+                <h3>Catalogo Mezzi</h3>
+                <p>Visualizza la flotta e aggiungi nuovi veicoli.</p>
+            </a>
+
+            <a href="/manutenzione" class="card card-manutenzione">
+                <div class="icon">🛠️</div>
+                <h3>Officina e Manutenzione</h3>
+                <p>Invia mezzi in riparazione o registra interventi.</p>
+            </a>
+
+            <a href="/segnala-furto" class="card card-furto">
+                <div class="icon">🚨</div>
+                <h3>Segnala Furto</h3>
+                <p>Registra un'emergenza e addebita le penali previste.</p>
+            </a>
+
+            <a href="/registra-cliente" class="card card-cliente">
+                <div class="icon">👤</div>
+                <h3>Nuovo Cliente</h3>
+                <p>Registra un nuovo utente nel sistema.</p>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

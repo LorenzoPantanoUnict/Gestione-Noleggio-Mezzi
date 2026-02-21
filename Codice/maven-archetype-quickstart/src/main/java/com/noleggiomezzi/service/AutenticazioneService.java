@@ -3,13 +3,14 @@ package com.noleggiomezzi.service;
 import com.noleggiomezzi.model.Cassiere;
 import com.noleggiomezzi.repository.RegistroCassieri;
 import com.noleggiomezzi.exceptions.CredenzialiErrateException;
+import com.noleggiomezzi.repository.interfacce.ICassiereRepository;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class AutenticazioneService {
     
-    private RegistroCassieri registroCassieri;
+    private ICassiereRepository registroCassieri;
 
     public AutenticazioneService(RegistroCassieri registroCassieri) {
         this.registroCassieri = registroCassieri;

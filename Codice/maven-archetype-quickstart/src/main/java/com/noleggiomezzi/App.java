@@ -3,6 +3,7 @@ package com.noleggiomezzi;
 import com.noleggiomezzi.model.*;
 import com.noleggiomezzi.model.tariffe.*;
 import com.noleggiomezzi.repository.interfacce.*;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,8 @@ public class App {
                                   IMezzoRepository mezzoRepo, 
                                   INoleggioRepository noleggioRepo,
                                   IPuntoNoleggioRepository puntoRepo,
-                                  ITariffaRepository tariffaRepo) {
+                                  ITariffaRepository tariffaRepo,
+                                  ICassiereRepository cassiereRepo) {
         return (args) -> {
             //Crazione di un Noleggio di Test
             PuntoNoleggio stazione = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
@@ -40,7 +42,13 @@ public class App {
             panda.noleggia(); // Cambia lo stato del mezzo in NOLEGGIATO
             noleggioRepo.aggiungiNoleggio(testNoleggio);
 
-            System.out.println("🚀 Dati di test caricati: Noleggio ID " + testNoleggio.getId() + " per Mario Rossi pronto per essere concluso!");
+            System.out.println("Dati di test caricati: Noleggio ID " + testNoleggio.getId());
+
+            // Cassiere Test
+            Cassiere admin = new Cassiere("admin", "admin123", "Mario", "Rossi");
+            cassiereRepo.aggiungiCassiere(admin);
+            
+            System.out.println("🔐 Cassiere aggiunto: admin / admin123");
         };
     }
 }
