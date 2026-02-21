@@ -22,26 +22,46 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NoleggioService {
-    private IChiusuraNoleggioService chiusuraService;
-    private IClienteRepository registroClienti;
-    private INoleggioRepository registroNoleggi;
-    private IMezzoRepository catalogoMezzi;
-    private IPuntoNoleggioRepository registroPuntiNoleggio;
-    private ITariffaRepository catalogoTariffe;
 
-   public NoleggioService(IClienteRepository rc,
+    private final IChiusuraNoleggioService chiusuraService;
+    private final IClienteRepository registroClienti;
+    private final INoleggioRepository registroNoleggi;
+    private final IMezzoRepository catalogoMezzi;
+    private final IPuntoNoleggioRepository registroPuntiNoleggio;
+    private final ITariffaRepository catalogoTariffe;
+
+    public NoleggioService(IClienteRepository rc,
                           INoleggioRepository rn,
                           IMezzoRepository cm,
                           IChiusuraNoleggioService cs,
                           IPuntoNoleggioRepository rp,
                           ITariffaRepository catalogoTariffe) {
-
         this.registroClienti = rc;
         this.registroNoleggi = rn;
         this.catalogoMezzi = cm;
         this.chiusuraService = cs;
         this.catalogoTariffe = catalogoTariffe;
         this.registroPuntiNoleggio = rp;
+    }
+
+    // --- NUOVI METODI PER IL CONTROLLER ---
+
+    public List<Cliente> getTuttiIClienti() {
+        return registroClienti.findAll();
+    }
+
+    public List<Mezzo> getMezziDisponibili() {
+        return catalogoMezzi.findAll().stream()
+                .filter(Mezzo::isDisponibile)
+                .collect(Collectors.toList());
+    }
+
+    public List<PuntoNoleggio> getTutteLeSedi() {
+        return registroPuntiNoleggio.findAll();
+    }
+
+    public List<ITariffa> getTutteLeTariffe() {
+        return catalogoTariffe.findAll();
     }
 
     public int avviaNoleggio(int idCliente, int idMezzo, String nomeTariffa, int idPuntoNoleggio) {

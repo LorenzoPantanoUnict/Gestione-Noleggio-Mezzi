@@ -1,7 +1,7 @@
 package com.noleggiomezzi.controller;
 
-import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
 import com.noleggiomezzi.service.ManutenzioneService;
+import com.noleggiomezzi.service.MezzoService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class ManutenzioneController {
 
     private final ManutenzioneService manutenzioneService;
-    private final IMezzoRepository catalogoMezzi;
+    private final MezzoService mezzoService;
 
-    public ManutenzioneController(ManutenzioneService ms, IMezzoRepository cm) {
-        this.manutenzioneService = ms;
-        this.catalogoMezzi = cm;
+    public ManutenzioneController(ManutenzioneService manutenzioneService, MezzoService mezzoService) {
+        this.manutenzioneService = manutenzioneService;
+        this.mezzoService = mezzoService;
     }
 
     @GetMapping("/manutenzione")
     public String gestioneManutenzione(Model model) {
-        model.addAttribute("mezziInFlotta", catalogoMezzi.findAll());
+        model.addAttribute("mezziInFlotta", mezzoService.getTuttiMezzi());
         return "manutenzione";
     }
 
