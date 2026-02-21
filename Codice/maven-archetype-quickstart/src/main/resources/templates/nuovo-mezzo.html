@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiungi Mezzo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; max-width: 600px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input[type="text"], input[type="number"], select { 
+            width: 100%; padding: 8px; box-sizing: border-box; 
+        }
+        button { 
+            padding: 10px 20px; background-color: #007BFF; color: white; 
+            border: none; cursor: pointer; font-size: 16px; margin-top: 10px;
+        }
+        button:hover { background-color: #0056b3; }
+        .error { color: red; margin-bottom: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>➕ Aggiungi un Nuovo Veicolo</h1>
+    <p>Compila i campi sottostanti per inserire un mezzo nel catalogo.</p>
+
+    <div th:if="${param.errore}" class="error">
+        Si è verificato un errore durante l'inserimento. Controlla i dati (es. ID duplicato).
+    </div>
+
+    <form action="/nuovo-mezzo" method="post">
+        
+        <div class="form-group">
+            <label for="id">ID Univoco Veicolo:</label>
+            <input type="number" id="id" name="id" required placeholder="Es. 101">
+        </div>
+
+        <div class="form-group">
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" name="marca" required placeholder="Es. Fiat">
+        </div>
+
+        <div class="form-group">
+            <label for="modello">Modello:</label>
+            <input type="text" id="modello" name="modello" required placeholder="Es. Panda">
+        </div>
+
+        <div class="form-group">
+            <label for="anno">Anno Immatricolazione:</label>
+            <input type="number" id="anno" name="anno" required placeholder="Es. 2023">
+        </div>
+
+        <div class="form-group">
+            <label for="cilindrata">Cilindrata (cc):</label>
+            <input type="number" id="cilindrata" name="cilindrata" required placeholder="Es. 1200">
+        </div>
+
+        <div class="form-group">
+            <label for="posti">Numero Posti:</label>
+            <input type="number" id="posti" name="posti" required placeholder="Es. 5">
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Categoria Mezzo:</label>
+            <select id="tipo" name="tipo" required>
+                <option value="Auto">Automobile</option>
+                <option value="Furgone">Furgone</option>
+                <option value="Moto">Motociclo</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="puntoNoleggioId">Punto Noleggio:</label>
+            <select id="puntoNoleggioId" name="puntoNoleggioId" required>
+                <option th:each="sede : ${listaSedi}" 
+                        th:value="${sede.id}" 
+                        th:text="${sede.nome + ' (' + sede.indirizzo + ')'}">
+                    Sede Centrale
+                </option>
+            </select>
+        </div>
+
+        <button type="submit">Salva Mezzo</button>
+    </form>
+
+    <br>
+    <a href="/catalogo">← Torna al Catalogo</a>
+
+</body>
+</html>

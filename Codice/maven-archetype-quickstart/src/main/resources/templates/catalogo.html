@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalogo Mezzi</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .disponibile { color: green; font-weight: bold; }
+        .manutenzione { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🚗 Catalogo Veicoli</h1>
+    <p>Benvenuto nel sistema di Noleggio Mezzi.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Modello</th>
+                <th>Tipologia</th>
+                <th>Stato</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="mezzo : ${listaMezzi}">
+                <td th:text="${mezzo.id}">1</td>
+                <td th:text="${mezzo.descrizione.marca}">Marca</td>
+                <td th:text="${mezzo.descrizione.modello}">Modello</td>
+                <td th:text="${mezzo.tipo != null ? mezzo.tipo.nome : 'N/D'}">Auto</td>
+                <td th:text="${mezzo.stato}" 
+                    th:classappend="${mezzo.stato.name() == 'DISPONIBILE' ? 'disponibile' : (mezzo.stato.name() == 'IN_MANUTENZIONE' ? 'manutenzione' : '')}">
+                    DISPONIBILE
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaMezzi)}">
+                <td colspan="5" style="text-align: center;">Nessun mezzo presente nel catalogo.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
