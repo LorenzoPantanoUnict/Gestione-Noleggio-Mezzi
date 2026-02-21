@@ -1,6 +1,5 @@
 package com.noleggiomezzi.controller;
 
-import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.service.ClienteService;
 
 //Validatore

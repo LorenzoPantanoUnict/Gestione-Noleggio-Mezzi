@@ -1,12 +1,6 @@
 package com.noleggiomezzi.controller;
 
-import com.noleggiomezzi.model.Mezzo;
-import com.noleggiomezzi.model.PuntoNoleggio;
-import com.noleggiomezzi.model.TipoMezzo;
-import com.noleggiomezzi.utility.MezzoBuilder;
-import com.noleggiomezzi.repository.interfacce.ICatalogoTipoMezzo;
-import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
-import com.noleggiomezzi.repository.interfacce.IPuntoNoleggioRepository;
+import com.noleggiomezzi.service.MezzoService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MezzoController {
 
-    private IMezzoRepository catalogoMezzi;
-    private IPuntoNoleggioRepository puntoRepo;
-    private ICatalogoTipoMezzo catalogoTipoMezzo;
+    private MezzoService mezzoService;
+    
 
-    public MezzoController(IMezzoRepository catalogoMezzi, IPuntoNoleggioRepository puntoRepo, ICatalogoTipoMezzo catalogoTipoMezzo) {
-        this.catalogoMezzi = catalogoMezzi;
-        this.puntoRepo = puntoRepo;
-        this.catalogoTipoMezzo = catalogoTipoMezzo;
+    public MezzoController(MezzoService mezzoService) {
+        this.mezzoService = mezzoService;
     }
 
     @GetMapping("/nuovo-mezzo")
     public String mostraFormNuovoMezzo(Model model) {
-        model.addAttribute("listaSedi", puntoRepo.findAll());
+        model.addAttribute("listaSedi", mezzoService.getTutteSedi());
         return "nuovo-mezzo"; 
     }
 
@@ -43,11 +34,8 @@ public class MezzoController {
                                 @RequestParam("tipo") String tipo,
                                 @RequestParam("puntoNoleggioId") int puntoNoleggioId) {
         try {
-            
 
-            PuntoNoleggio puntoNoleggio = puntoRepo.getPuntoById(puntoNoleggioId);
-
-            aggiungiNuovoMezzo(id, marca, modello, anno, cilindrata, posti, tipo, puntoNoleggio);
+            mezzoService.aggiungiNuovoMezzo(id, marca, modello, anno, cilindrata, posti, tipo, puntoNoleggioId);
 
             return "redirect:/catalogo";
 
@@ -60,35 +48,9 @@ public class MezzoController {
     @GetMapping("/catalogo")
     public String mostraCatalogo(Model model) {
   
-        model.addAttribute("listaMezzi", catalogoMezzi.findAll()); 
+        model.addAttribute("listaMezzi", mezzoService.getTuttiMezzi()); 
         
         return "catalogo"; 
-    }
-
-    public void aggiungiNuovoMezzo(int id, String marca, String modello, 
-                            int anno, int cilindrata, int posti,
-                            String tipo, PuntoNoleggio puntoNoleggio){
-
-        // Controllo se esite già un mezzo con lo stesso ID
-        if(catalogoMezzi.esisteMezzo(id)){
-            throw new IllegalArgumentException("Esiste già un mezzo con ID " + id);
-        }; 
-
-        TipoMezzo tipoMezzo = catalogoTipoMezzo.getTipoMezzo(tipo);
-        
-        MezzoBuilder mezzoBuilder = new MezzoBuilder();
-
-        Mezzo nuovoMezzo = mezzoBuilder.conId(id)
-                                        .diMarca(marca)
-                                        .modello(modello)
-                                        .immatricolatoNel(anno)
-                                        .conCilindrata(cilindrata)
-                                        .conNumeroPosti(posti)
-                                        .diTipo(tipoMezzo)
-                                        .allocatoPresso(puntoNoleggio)
-                                        .build();
-
-        catalogoMezzi.aggiungiMezzo(nuovoMezzo);
     }
 
     
