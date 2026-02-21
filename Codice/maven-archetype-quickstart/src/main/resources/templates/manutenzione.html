@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Manutenzione</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; }
+        .DISPONIBILE { background-color: #d4edda; color: #155724; }
+        .IN_MANUTENZIONE { background-color: #fff3cd; color: #856404; }
+        .btn { padding: 5px 10px; cursor: pointer; border: none; border-radius: 3px; }
+        .btn-repair { background: #007bff; color: white; }
+        .btn-save { background: #28a745; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🛠️ Officina e Manutenzione</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mezzo</th>
+                <th>Stato Attuale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="m : ${mezziInFlotta}">
+                <td th:text="${m.descrizione.marca + ' ' + m.descrizione.modello + ' (ID: ' + m.id + ')'}"></td>
+                <td><span th:class="'badge ' + ${m.stato}" th:text="${m.stato}"></span></td>
+                <td>
+                    <form th:if="${m.isDisponibile()}" action="/manutenzione/invia" method="post" style="display:inline;">
+                        <input type="hidden" name="idMezzo" th:value="${m.id}">
+                        <button class="btn btn-repair">Invia in Officina</button>
+                    </form>
+
+                    <div th:if="${m.stato.name() == 'IN_MANUTENZIONE'}">
+                        <form action="/manutenzione/chiudi" method="post">
+                            <input type="hidden" name="idMezzo" th:value="${m.id}">
+                            <input type="text" name="descrizione" placeholder="Cosa è stato fatto?" required>
+                            <input type="number" name="costo" placeholder="Costo (€)" step="0.01" required>
+                            <select name="statoFinale">
+                                <option value="DISPONIBILE">Ripristina (Disponibile)</option>
+                                <option value="FUORI_SERVIZIO">Rottama (Fuori Servizio)</option>
+                            </select>
+                            <button class="btn btn-save">Registra e Chiudi</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/catalogo">⬅ Torna al Catalogo</a>
+</body>
+</html>

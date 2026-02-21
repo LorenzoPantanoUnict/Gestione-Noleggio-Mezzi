@@ -1,47 +1,45 @@
 package com.noleggiomezzi.controller;
 
-import com.noleggiomezzi.exceptions.EnitaNonTrovataException;
-import com.noleggiomezzi.exceptions.StatoNonValidoException;
-import com.noleggiomezzi.model.InterventoManutenzione;
-import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
-
-import java.time.LocalDateTime;
+import com.noleggiomezzi.service.ManutenzioneService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+    // Questo controller si occupa di gestire le richieste relative al caso d'uso
+    // - Effettua Manutenzione
+    // Per la logica di business delega al ManutenzioneService
+    
 @Controller
 public class ManutenzioneController {
 
-    private IMezzoRepository catalogoMezzi;
+    private final ManutenzioneService manutenzioneService;
+    private final IMezzoRepository catalogoMezzi;
 
-
-    public ManutenzioneController( IMezzoRepository catalogoMezzi) {
-        this.catalogoMezzi = catalogoMezzi;
+    public ManutenzioneController(ManutenzioneService ms, IMezzoRepository cm) {
+        this.manutenzioneService = ms;
+        this.catalogoMezzi = cm;
     }
 
-    public void registraIntervento(int idMezzo, String descrizione, double costo, String nuovoStato) {
-        try {
-            // 1. Usiamo getMezzo() standard, perché il veicolo potrebbe essere già rotto/in manutenzione!
-            Mezzo m = catalogoMezzi.getMezzoById(idMezzo);
-            
-            InterventoManutenzione intervento = new InterventoManutenzione(LocalDateTime.now(), descrizione, costo);
-            m.aggiungiIntervento(intervento);
-            
-            // 2. Yoda Conditions: previene NullPointerException se nuovoStato è null
-            if ("IN_MANUTENZIONE".equals(nuovoStato)) {
-                m.inviaInManutenzione();
-            } else if ("DISPONIBILE".equals(nuovoStato)) {
-                m.rendiDisponibile();
-            } else if ("FUORI_SERVIZIO".equals(nuovoStato)) { // <-- AGGIUNGI QUESTO
-                m.impostaFuoriServizio();
-            }
-            
-            System.out.println("SUCCESSO: Manutenzione registrata. Il mezzo " + idMezzo + " è ora " + nuovoStato + ".");
-            
-        // 3. Catturiamo tutte le eccezioni specifiche del tuo dominio
-        } catch (EnitaNonTrovataException | StatoNonValidoException | IllegalArgumentException e) {
-            System.err.println("ERRORE MANUTENZIONE: " + e.getMessage());
-        }
+    @GetMapping("/manutenzione")
+    public String gestioneManutenzione(Model model) {
+        model.addAttribute("mezziInFlotta", catalogoMezzi.findAll());
+        return "manutenzione";
+    }
+
+    @PostMapping("/manutenzione/invia")
+    public String inviaInOfficina(@RequestParam int idMezzo) {
+        manutenzioneService.inviaInRiparazione(idMezzo);
+        return "redirect:/manutenzione?success_invio=true";
+    }
+
+    @PostMapping("/manutenzione/chiudi")
+    public String chiudiManutenzione(@RequestParam int idMezzo, 
+                                     @RequestParam String descrizione, 
+                                     @RequestParam double costo, 
+                                     @RequestParam String statoFinale) {
+        manutenzioneService.registraInterventoERipristina(idMezzo, descrizione, costo, statoFinale);
+        return "redirect:/manutenzione?success_riparazione=true";
     }
 }
