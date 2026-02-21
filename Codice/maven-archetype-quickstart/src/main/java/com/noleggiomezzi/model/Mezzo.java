@@ -20,7 +20,7 @@ public class Mezzo {
         this.id = id;
         this.descrizione = descrizione;
         this.stato = StatoMezzo.DISPONIBILE;
-        this.livelloCarica = 100.0;
+        this.livelloCarica = 1.0;
         this.puntoNoleggio = puntoNoleggio;
         this.interventi = new ArrayList<>();
     }

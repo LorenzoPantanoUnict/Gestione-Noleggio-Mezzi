@@ -10,8 +10,8 @@ public class LoginController {
     
     private AutenticazioneService authService;
 
-    public LoginController() {
-        this.authService = new AutenticazioneService();
+    public LoginController(AutenticazioneService authService) {
+        this.authService = authService;
     }
 
     public void login(String username, String password) {

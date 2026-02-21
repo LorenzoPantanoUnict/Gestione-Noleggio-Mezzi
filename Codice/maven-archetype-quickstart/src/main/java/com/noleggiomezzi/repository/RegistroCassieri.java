@@ -9,22 +9,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RegistroCassieri {
 
-    private static RegistroCassieri instance;
-
     private Map<String, Cassiere> mappaCassieri;
 
-    private RegistroCassieri() {
-        mappaCassieri = new HashMap<>();
-        
-        Cassiere admin = new Cassiere(1, "mario.rossi", "pass123", "Mario", "Rossi");
-        aggiungiCassiere(admin);
-    }
-
-    public static RegistroCassieri getInstance() {
-        if (instance == null) {
-            instance = new RegistroCassieri();
-        }
-        return instance;
+    public RegistroCassieri() {
+        this.mappaCassieri = new HashMap<>();
     }
 
     public void aggiungiCassiere(Cassiere c) {

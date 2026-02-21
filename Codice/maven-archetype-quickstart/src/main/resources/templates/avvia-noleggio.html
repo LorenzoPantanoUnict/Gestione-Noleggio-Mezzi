@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Avvia Noleggio</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; max-width: 650px; line-height: 1.6; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        button { padding: 12px 20px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; }
+        button:hover { background-color: #0056b3; }
+        .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        .info-pnr { font-family: monospace; font-size: 18px; color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <h1>🔑 Avvia Nuovo Noleggio</h1>
+    <p>Seleziona i dettagli sottostanti per consegnare un veicolo al cliente.</p>
+
+    <div th:if="${param.error}" class="error">
+        <strong>❌ Attenzione:</strong> Impossibile avviare il noleggio. Verifica che il cliente sia affidabile e il mezzo sia effettivamente disponibile con carica sufficiente.
+    </div>
+
+    <div th:if="${param.success}" class="success">
+        <strong>✅ Operazione Completata:</strong> Noleggio avviato correttamente! Il mezzo è ora assegnato al cliente.
+    </div>
+
+    <form action="/avvia-noleggio" method="post">
+        
+        <div class="form-group">
+            <label for="clienteId">Cliente:</label>
+            <select id="clienteId" name="clienteId" required>
+                <option value="" disabled selected>-- Scegli un cliente --</option>
+                <option th:each="cliente : ${listaClienti}" 
+                        th:value="${cliente.id}" 
+                        th:text="${cliente.nome + ' ' + cliente.cognome + ' (' + cliente.email + ')'}">
+                    Mario Rossi
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mezzoId">Veicolo Disponibile:</label>
+            <select id="mezzoId" name="mezzoId" required>
+                <option value="" disabled selected>-- Seleziona un veicolo --</option>
+                <option th:if="${#lists.isEmpty(mezziDisponibili)}" value="" disabled>Nessun mezzo disponibile al momento</option>
+                <option th:each="mezzo : ${mezziDisponibili}" 
+                        th:value="${mezzo.id}" 
+                        th:text="${mezzo.descrizione.marca + ' ' + mezzo.descrizione.modello + ' [ID: ' + mezzo.id + ']'}">
+                    Fiat Panda
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="puntoNoleggioId">Sede di Ritiro:</label>
+            <select id="puntoNoleggioId" name="puntoNoleggioId" required>
+                <option value="" disabled selected>-- Scegli la sede --</option>
+                <option th:each="sede : ${listaSedi}" 
+                        th:value="${sede.id}" 
+                        th:text="${sede.nome + ' - ' + sede.indirizzo}">
+                    Sede Centrale
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="tariffa">Piano Tariffario:</label>
+            <select id="tariffa" name="tariffa" required>
+                <option value="" disabled selected>-- Scegli una tariffa --</option>
+                <option th:each="t : ${listaTariffe}" 
+                        th:value="${t.nome}" 
+                        th:text="${t.nome}">
+                    ORARIA
+                </option>
+            </select>
+        </div>
+
+        <button type="submit">Conferma e Avvia</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        <a href="/catalogo">⬅ Torna al Catalogo</a>
+    </div>
+
+</body>
+</html>

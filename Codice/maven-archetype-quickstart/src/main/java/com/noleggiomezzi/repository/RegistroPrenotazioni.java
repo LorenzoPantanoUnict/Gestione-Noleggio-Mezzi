@@ -8,20 +8,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RegistroPrenotazioni {
-    private static RegistroPrenotazioni instance;
     private Map<Integer, Prenotazione> mappaPrenotazioni;
-
-    private RegistroPrenotazioni() {
-        mappaPrenotazioni = new HashMap<>();
+    
+    public RegistroPrenotazioni() {
+        this.mappaPrenotazioni = new HashMap<>();
     }
     
-    public static RegistroPrenotazioni getInstance() {
-        if (instance == null) {
-            instance = new RegistroPrenotazioni();
-        }
-        return instance;
-    }
-
     public void aggiungiPrenotazione(Prenotazione p) {
         mappaPrenotazioni.put(p.getId(), p);
     }

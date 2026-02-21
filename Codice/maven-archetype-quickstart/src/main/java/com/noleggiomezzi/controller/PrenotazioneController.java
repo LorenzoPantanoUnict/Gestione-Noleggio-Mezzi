@@ -14,9 +14,9 @@ public class PrenotazioneController {
     private CatalogoMezzi catalogoMezzi;
     private RegistroPrenotazioni registroPrenotazioni;
 
-    public PrenotazioneController(CatalogoMezzi catalogoMezzi) {
+    public PrenotazioneController(CatalogoMezzi catalogoMezzi, RegistroPrenotazioni registroPrenotazioni) {
         this.catalogoMezzi = catalogoMezzi;
-        this.registroPrenotazioni = RegistroPrenotazioni.getInstance();
+        this.registroPrenotazioni = registroPrenotazioni;
     }
 
     public List<Mezzo> cercaDisponibilita(TipoMezzo tipo, DateRange periodo, int idPuntoNoleggio) {

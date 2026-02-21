@@ -6,6 +6,7 @@ import com.noleggiomezzi.model.enums.StatoPagamento;
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.segnalazioni.Segnalazione;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Noleggio {
@@ -34,6 +35,8 @@ public class Noleggio {
         this.puntoNoleggio = punto;
         this.dataInizio = LocalDateTime.now();
         this.statoNoleggio = StatoNoleggio.ATTIVO;
+        this.kmIniziali = 0;
+        segnalazioni = new ArrayList<>();
     }
 
     public void chiudi(PuntoNoleggio puntoConsegna) {

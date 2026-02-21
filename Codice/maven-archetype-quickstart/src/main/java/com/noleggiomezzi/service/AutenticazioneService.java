@@ -11,8 +11,8 @@ public class AutenticazioneService {
     
     private RegistroCassieri registroCassieri;
 
-    public AutenticazioneService() {
-        this.registroCassieri = RegistroCassieri.getInstance();
+    public AutenticazioneService(RegistroCassieri registroCassieri) {
+        this.registroCassieri = registroCassieri;
     }
 
     public void autentica(String username, String password) {
