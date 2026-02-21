@@ -2,7 +2,7 @@ package com.noleggiomezzi.model;
 
 import java.util.ArrayList; 
 import java.util.List;
-import com.noleggiomezzi.model.stati.*; // Importiamo le classi del nuovo package stati
+import com.noleggiomezzi.model.stati.*; 
 
 public class Mezzo {
 
@@ -101,8 +101,8 @@ public class Mezzo {
     }
 
     /**
-     * Restituisce il nome dello stato come stringa per compatibilità 
-     * con il Frontend (Thymeleaf) e i vecchi controller.
+     *
+     * 
      */
     public String getStato() {
         return statoAttuale.getNomeStato();
