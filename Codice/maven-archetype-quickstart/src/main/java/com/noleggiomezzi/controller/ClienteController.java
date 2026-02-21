@@ -1,10 +1,9 @@
 package com.noleggiomezzi.controller;
 
 import com.noleggiomezzi.model.Cliente;
-import com.noleggiomezzi.repository.interfacce.IClienteRepository;
+import com.noleggiomezzi.service.ClienteService;
 
 //Validatore
-import org.apache.commons.validator.routines.EmailValidator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ClienteController {
 
-    private IClienteRepository registroClienti;
+    private ClienteService clienteService;
 
-    public ClienteController(IClienteRepository rc) {
-        this.registroClienti = rc;
+    public ClienteController(ClienteService rc) {
+        this.clienteService = rc;
     }
 
 
@@ -32,7 +31,7 @@ public class ClienteController {
                                   @RequestParam("cognome") String cognome,
                                   @RequestParam("email") String email) {
         try {
-            registraCliente(nome, cognome, email);
+            clienteService.registraNuovoCliente(nome, cognome, email);
             return "redirect:/registra-cliente?success=true";
         } catch (IllegalArgumentException e) {
             System.err.println("Errore nella registrazione: " + e.getMessage());
@@ -40,18 +39,4 @@ public class ClienteController {
         }
     }
 
-
-    public void registraCliente(String nome, String cognome, String email) {
-        
-        if(email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email non valida");
-        }
-        
-        if(!EmailValidator.getInstance().isValid(email)) {
-            throw new IllegalArgumentException("Email non valida");
-        }
-        Cliente c = new Cliente( nome, cognome, email);
-        
-        registroClienti.aggiungiCliente(c);
-    }
 }

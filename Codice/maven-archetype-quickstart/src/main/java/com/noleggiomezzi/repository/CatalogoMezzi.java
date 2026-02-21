@@ -2,11 +2,11 @@ package com.noleggiomezzi.repository;
 
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.PuntoNoleggio;
-import com.noleggiomezzi.model.DateRange;
 import com.noleggiomezzi.model.DescrizioneMezzo;
 import com.noleggiomezzi.model.StatoMezzo;
 import com.noleggiomezzi.model.TipoMezzo;
 import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
+import com.noleggiomezzi.utility.DateRange;
 
 //Spring 
 import org.springframework.stereotype.Repository;

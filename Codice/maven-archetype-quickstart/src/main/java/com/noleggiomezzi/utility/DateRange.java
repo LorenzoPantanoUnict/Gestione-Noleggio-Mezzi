@@ -1,4 +1,4 @@
-package com.noleggiomezzi.model;
+package com.noleggiomezzi.utility;
 
 import java.time.LocalDateTime;
 

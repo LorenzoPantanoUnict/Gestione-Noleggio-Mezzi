@@ -1,4 +1,7 @@
 package com.noleggiomezzi.model;
+
+import org.apache.commons.validator.routines.EmailValidator;
+
 public class Cliente {
 
     private static int counter = 1;
@@ -14,10 +17,20 @@ public class Cliente {
 
     //Costruttori 
     public Cliente( String nome, String cognome, String email) {
+
+        if(email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+        
+        if(!EmailValidator.getInstance().isValid(email)) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+
         this.id = counter++;
         this.nome = nome;
         this.cognome = cognome;
-        this.email= email;
+        
+
         this.affidabilita = AFFIDABILITA_DEFAULT;
         this.credito = CREDITO_DEFAULT;
     }

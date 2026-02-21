@@ -3,6 +3,7 @@ package com.noleggiomezzi.controller;
 import com.noleggiomezzi.model.*;
 import com.noleggiomezzi.repository.CatalogoMezzi;
 import com.noleggiomezzi.repository.RegistroPrenotazioni;
+import com.noleggiomezzi.utility.DateRange;
 import com.noleggiomezzi.exceptions.NessunaDisponibilitaException;
 import java.util.List;
 

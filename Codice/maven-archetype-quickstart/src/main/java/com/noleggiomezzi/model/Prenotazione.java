@@ -2,6 +2,8 @@ package com.noleggiomezzi.model;
 
 import com.noleggiomezzi.model.tariffe.ITariffa;
 import com.noleggiomezzi.model.tariffe.TariffaGiornaliera;
+import com.noleggiomezzi.utility.DateRange;
+
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
