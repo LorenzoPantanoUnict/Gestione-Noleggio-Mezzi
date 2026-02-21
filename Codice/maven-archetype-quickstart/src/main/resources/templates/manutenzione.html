@@ -7,16 +7,28 @@
         body { font-family: sans-serif; margin: 30px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; }
+        
+        /* Badge generico */
+        .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85em; }
+        
+        /* Classi CSS basate sulla stringa restituita da m.stato */
         .DISPONIBILE { background-color: #d4edda; color: #155724; }
         .IN_MANUTENZIONE { background-color: #fff3cd; color: #856404; }
-        .btn { padding: 5px 10px; cursor: pointer; border: none; border-radius: 3px; }
+        .FUORI_SERVIZIO { background-color: #f8d7da; color: #721c24; }
+        .NOLEGGIATO { background-color: #cce5ff; color: #004085; }
+        .RUBATO { background-color: #343a40; color: white; }
+
+        .btn { padding: 5px 10px; cursor: pointer; border: none; border-radius: 3px; font-weight: bold; }
         .btn-repair { background: #007bff; color: white; }
-        .btn-save { background: #28a745; color: white; }
+        .btn-save { background: #28a745; color: white; margin-top: 5px; }
+        
+        input, select { padding: 5px; margin-right: 5px; border: 1px solid #ccc; border-radius: 3px; }
+        .form-chiusura { background: #f9f9f9; padding: 10px; border-radius: 5px; border: 1px solid #eee; }
     </style>
 </head>
 <body>
     <h1>🛠️ Officina e Manutenzione</h1>
+    <p>Gestisci lo stato riparazioni della flotta aziendale.</p>
 
     <table>
         <thead>
@@ -29,30 +41,47 @@
         <tbody>
             <tr th:each="m : ${mezziInFlotta}">
                 <td th:text="${m.descrizione.marca + ' ' + m.descrizione.modello + ' (ID: ' + m.id + ')'}"></td>
-                <td><span th:class="'badge ' + ${m.stato}" th:text="${m.stato}"></span></td>
+                
+                <td>
+                    <span th:class="'badge ' + ${m.stato}" th:text="${m.stato}"></span>
+                </td>
+                
                 <td>
                     <form th:if="${m.isDisponibile()}" action="/manutenzione/invia" method="post" style="display:inline;">
                         <input type="hidden" name="idMezzo" th:value="${m.id}">
                         <button class="btn btn-repair">Invia in Officina</button>
                     </form>
 
-                    <div th:if="${m.stato.name() == 'IN_MANUTENZIONE'}">
-                        <form action="/manutenzione/chiudi" method="post">
+                    <div th:if="${m.stato == 'IN_MANUTENZIONE'}" class="form-chiusura">
+                        <strong>🛠️ Registra Intervento:</strong>
+                        <form action="/manutenzione/chiudi" method="post" style="margin-top: 5px;">
                             <input type="hidden" name="idMezzo" th:value="${m.id}">
-                            <input type="text" name="descrizione" placeholder="Cosa è stato fatto?" required>
-                            <input type="number" name="costo" placeholder="Costo (€)" step="0.01" required>
+                            
+                            <input type="text" name="descrizione" placeholder="Descrizione lavoro..." required>
+                            <input type="number" name="costo" placeholder="Costo (€)" step="0.01" style="width: 80px;" required>
+                            
                             <select name="statoFinale">
                                 <option value="DISPONIBILE">Ripristina (Disponibile)</option>
                                 <option value="FUORI_SERVIZIO">Rottama (Fuori Servizio)</option>
                             </select>
-                            <button class="btn btn-save">Registra e Chiudi</button>
+                            
+                            <button class="btn btn-save">Chiudi e Aggiorna</button>
                         </form>
                     </div>
+
+                    <span th:if="${m.stato == 'NOLEGGIATO'}" style="font-size: 0.9em; color: #666;">
+                        <i>Nessuna azione: mezzo attualmente presso un cliente.</i>
+                    </span>
+                    <span th:if="${m.stato == 'RUBATO'}" style="font-size: 0.9em; color: #cc0000;">
+                        <i>Mezzo sotto indagine (Denuncia furto effettuata).</i>
+                    </span>
                 </td>
             </tr>
         </tbody>
     </table>
+    
     <br>
-    <a href="/catalogo">⬅ Torna al Catalogo</a>
+    <a href="/catalogo">⬅ Torna al Catalogo</a> | 
+    <a href="/dashboard">🏠 Dashboard</a>
 </body>
 </html>

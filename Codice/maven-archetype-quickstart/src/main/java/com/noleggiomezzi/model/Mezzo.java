@@ -2,13 +2,12 @@ package com.noleggiomezzi.model;
 
 import java.util.ArrayList; 
 import java.util.List;
-
-import com.noleggiomezzi.exceptions.StatoNonValidoException;      
+import com.noleggiomezzi.model.stati.*; // Importiamo le classi del nuovo package stati
 
 public class Mezzo {
 
     private int id;
-    private StatoMezzo stato;
+    private IStatoMezzo statoAttuale; 
     private double livelloCarica;
     private DescrizioneMezzo descrizione;
     private PuntoNoleggio puntoNoleggio;
@@ -19,46 +18,50 @@ public class Mezzo {
     public Mezzo(int id, DescrizioneMezzo descrizione, PuntoNoleggio puntoNoleggio) {
         this.id = id;
         this.descrizione = descrizione;
-        this.stato = StatoMezzo.DISPONIBILE;
-        this.livelloCarica = 1.0;
+        this.statoAttuale = new StatoDisponibile();  // stato di default
+        this.livelloCarica = 100.0;
         this.puntoNoleggio = puntoNoleggio;
         this.interventi = new ArrayList<>();
     }
-
     
+    /**
+     * La logica di transizione dello stato è delegata
+     * alle singole classi stato
+     */
+    public void setStato(IStatoMezzo nuovoStato) {
+        this.statoAttuale = nuovoStato;
+    }
+
+    // --- DELEGAZIONI ALLO STATO (Refactoring dei cambiamenti di stato) ---
+
+    public void noleggia() {
+        statoAttuale.noleggia(this);
+    }
+
+    public void rendiDisponibile() {
+        statoAttuale.restituisci(this);
+    }
+
+    public void inviaInManutenzione() {
+        statoAttuale.inviaInManutenzione(this);
+    }
+
+    public void segnalaFurto() {
+        statoAttuale.segnaComeRubato(this);
+    }
+    
+    public void impostaFuoriServizio() {
+        statoAttuale.impostaFuoriServizio(this);
+    }
+
+    public boolean isDisponibile() {
+        return statoAttuale.isDisponibile();
+    }
+
+    // Metodi 
+
     public void aggiungiIntervento(InterventoManutenzione i) {
         this.interventi.add(i);
-    }
-
-    public void setPuntoNoleggio(PuntoNoleggio punto) {
-        this.puntoNoleggio = punto;
-    }
-    
-    // Cambimenti di stato  per il mezzo
-    
-    public void inviaInManutenzione() {
-        if (this.stato == StatoMezzo.NOLEGGIATO || this.stato == StatoMezzo.RUBATO) {
-            throw new StatoNonValidoException("Impossibile inviare in manutenzione un mezzo noleggiato o rubato.");
-        }
-        this.stato = StatoMezzo.IN_MANUTENZIONE;
-    }
-    public void rendiDisponibile() {
-        // Un mezzo può tornare disponibile solo se era noleggiato, in manutenzione o fuori servizio
-        if (this.stato == StatoMezzo.RUBATO) {
-            throw new StatoNonValidoException("Un mezzo rubato non può tornare direttamente disponibile senza procedure speciali.");
-        }
-        this.stato = StatoMezzo.DISPONIBILE;
-    }
-
-    public void impostaFuoriServizio() {
-        this.stato = StatoMezzo.FUORI_SERVIZIO;
-    }
-    
-    public void noleggia() {
-        if (this.stato != StatoMezzo.DISPONIBILE) {
-            throw new StatoNonValidoException("Impossibile noleggiare il mezzo: attualmente " + this.stato);
-        }
-        this.stato = StatoMezzo.NOLEGGIATO;
     }
 
     public void aggiornaLivelloCarica(double nuovaCarica) {
@@ -68,45 +71,44 @@ public class Mezzo {
         this.livelloCarica = nuovaCarica;
     }
 
-    public void segnalaFurto() {
-        if (this.stato == StatoMezzo.RUBATO) {
-            throw new StatoNonValidoException("Il mezzo è già segnalato come rubato.");
-        }
-        this.stato = StatoMezzo.RUBATO;
+    // --- GETTERS ---
+
+    public int getId() {
+        return id;
     }
 
     public double getLivelloCarica() {
         return livelloCarica;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public DescrizioneMezzo getDescrizione() {
         return descrizione;
     }
 
-   public TipoMezzo getTipo() {
+    public PuntoNoleggio getPuntoNoleggio() {
+        return puntoNoleggio;
+    }
+
+    public void setPuntoNoleggio(PuntoNoleggio punto) {
+        this.puntoNoleggio = punto;
+    }
+
+    public TipoMezzo getTipo() {
         if (this.tipo == null && this.descrizione != null) {
             return this.descrizione.getTipo();
         }
         return this.tipo;
     }
 
-    public StatoMezzo getStato() {
-        return stato;
+    /**
+     * Restituisce il nome dello stato come stringa per compatibilità 
+     * con il Frontend (Thymeleaf) e i vecchi controller.
+     */
+    public String getStato() {
+        return statoAttuale.getNomeStato();
     }
 
     public List<InterventoManutenzione> getInterventi() {
         return this.interventi;
-    }
-
-    public boolean isDisponibile() {
-        return stato == StatoMezzo.DISPONIBILE;
-    }
-
-    public PuntoNoleggio getPuntoNoleggio() {
-        return puntoNoleggio;
     }
 }
