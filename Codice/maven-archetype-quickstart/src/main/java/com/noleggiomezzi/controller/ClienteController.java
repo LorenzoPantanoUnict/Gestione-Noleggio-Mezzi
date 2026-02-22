@@ -10,6 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * ClienteController si occupa di gestire le richieste relative ai casi d'uso
+ * 
+ * -Registra Nuovo Cliente
+ * -Gestisci BlackList
+ * 
+ * Delega al Service per la logica 
+ */
+
 @Controller
 public class ClienteController {
 
@@ -37,5 +46,25 @@ public class ClienteController {
             return "redirect:/registra-cliente?error=true";
         }
     }
+
+    @GetMapping("/gestione-clienti")
+    public String mostraGestioneClienti(Model model) {
+        model.addAttribute("listaClienti", clienteService.getTuttiClienti());
+        return "gestione-clienti";
+    }
+
+    @PostMapping("/clienti/sospendi")
+    public String sospendi(@RequestParam int idCliente) {
+        clienteService.sospendiCliente(idCliente);
+        return "redirect:/gestione-clienti?success=sospeso";
+    }
+
+    @PostMapping("/clienti/riabilita")
+    public String riabilita(@RequestParam int idCliente) {
+        clienteService.riabilitaCliente(idCliente);
+        return "redirect:/gestione-clienti?success=riabilitato";
+    }
+
+
 
 }

@@ -11,7 +11,7 @@
         
         .card { background-color: white; border-radius: 8px; padding: 25px; text-align: center; text-decoration: none; color: inherit; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; border-top: 5px solid #007bff; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-        .card-nuovo-mezzo { border-top-color: #fd7e14; } /* Arancione per i nuovi mezzi */
+        .card-nuovo-mezzo { border-top-color: #fd7e14; } 
         /* Colori personalizzati per i bordi delle card */
         .card-noleggio { border-top-color: #28a745; }
         .card-concludi { border-top-color: #17a2b8; }
@@ -19,6 +19,7 @@
         .card-furto { border-top-color: #dc3545; }
         .card-catalogo { border-top-color: #6c757d; }
         .card-cliente { border-top-color: #6610f2; }
+        .card-blacklist { border-top-color: #212529; }
 
         .card h3 { margin-top: 0; font-size: 1.2rem; }
         .card p { color: #666; font-size: 0.9rem; }
@@ -81,6 +82,14 @@
                 <h3>Nuovo Cliente</h3>
                 <p>Registra un nuovo utente nel sistema.</p>
             </a>
+
+        
+            <a href="/gestione-clienti" class="card card-blacklist">
+                <div class ="icon">👥</div>
+                <h3>Gestisci BlackList</h3>
+                <p>Sospendi o ripristina account clienti</p>
+            </a>
+            
         </div>
     </div>
 

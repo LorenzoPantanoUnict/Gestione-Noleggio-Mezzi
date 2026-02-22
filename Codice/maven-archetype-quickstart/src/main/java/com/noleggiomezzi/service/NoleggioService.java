@@ -103,6 +103,7 @@ public class NoleggioService {
         boolean pagamentoEffettuato = c.addebbitaImporto(costo);
 
         if (!pagamentoEffettuato) {
+            c.sospendiAccount();
             throw new PagamentoException("Pagamento non riuscito: credito insufficiente.");
         }
 
@@ -115,6 +116,10 @@ public class NoleggioService {
         SegnalazioneFurto segnalazione = new SegnalazioneFurto(idNoleggio, descrizione);
 
         boolean pagamentoEffettuato = n.gestisciSegnalazione(segnalazione);
+
+        //Sospensione di sicurezza
+        Cliente c = n.getCliente();
+        c.sospendiAccount();
 
         if (!pagamentoEffettuato) {
             throw new PagamentoException("Pagamento penale non riuscito");

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Clienti</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .affidabile { color: green; font-weight: bold; }
+        .sospeso { color: red; font-weight: bold; }
+        .btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; }
+        .btn-ban { background-color: #dc3545; }
+        .btn-unban { background-color: #28a745; }
+    </style>
+</head>
+<body>
+    <h1>👥 Gestione Anagrafica e Blacklist</h1>
+    
+    <div th:if="${param.success}" style="color: blue; margin-bottom: 10px;">
+        Operazione eseguita con successo!
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome e Cognome</th>
+                <th>Email</th>
+                <th>Stato</th>
+                <th>Azione</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c : ${listaClienti}">
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.nome + ' ' + c.cognome}"></td>
+                <td th:text="${c.email}"></td>
+                <td>
+                    <span th:if="${c.affidabile}" class="affidabile">ATTIVO</span>
+                    <span th:unless="${c.affidabile}" class="sospeso">SOSPESO (Blacklist)</span>
+                </td>
+                <td>
+                    <form th:if="${c.affidabile}" action="/clienti/sospendi" method="post">
+                        <input type="hidden" name="idCliente" th:value="${c.id}">
+                        <button class="btn btn-ban">Metti in Blacklist</button>
+                    </form>
+                    
+                    <form th:unless="${c.affidabile}" action="/clienti/riabilita" method="post">
+                        <input type="hidden" name="idCliente" th:value="${c.id}">
+                        <button class="btn btn-unban">Riabilita Cliente</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/dashboard">⬅ Torna alla Dashboard</a>
+</body>
+</html>

@@ -29,7 +29,7 @@ public class Cliente {
         this.id = counter++;
         this.nome = nome;
         this.cognome = cognome;
-        
+        this.email = email;
 
         this.affidabilita = AFFIDABILITA_DEFAULT;
         this.credito = CREDITO_DEFAULT;

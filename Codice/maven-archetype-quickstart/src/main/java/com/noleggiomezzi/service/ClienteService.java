@@ -4,6 +4,8 @@ import com.noleggiomezzi.model.Cliente;
 import com.noleggiomezzi.repository.interfacce.IClienteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClienteService {
 
@@ -31,6 +33,24 @@ public class ClienteService {
         Cliente nuovoCliente = new Cliente(nome, cognome, email);
         
         registroClienti.aggiungiCliente(nuovoCliente);
+    }
+    
+    public void sospendiCliente(int idCliente) {
+        Cliente c = registroClienti.getClienteById(idCliente);
+        if (c != null) {
+            c.sospendiAccount(); 
+        }
+    }
+
+    public void riabilitaCliente(int idCliente) {
+        Cliente c = registroClienti.getClienteById(idCliente);
+        if (c != null) {
+            c.riattivaAccount(); 
+        }
+    }
+
+    public List<Cliente> getTuttiClienti(){
+        return registroClienti.findAll();
     }
 
 }
