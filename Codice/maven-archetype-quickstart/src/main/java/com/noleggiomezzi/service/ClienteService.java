@@ -16,7 +16,12 @@ public class ClienteService {
 
     public void registraNuovoCliente(String nome, String cognome, String email) {
     
+        if(email == null || nome == null || cognome == null){
+            throw new IllegalArgumentException("i campi per registrare un utente non devono essere nulli");
+        }
+
         boolean emailGiaEsistente = registroClienti.findAll().stream()
+                .filter(c -> c.getEmail() != null)
                 .anyMatch(c -> c.getEmail().equalsIgnoreCase(email));
         
         if (emailGiaEsistente) {

@@ -28,7 +28,7 @@ public class App {
             PuntoNoleggio stazione = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
             puntoRepo.aggiungiPunto(stazione);
 
-            Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@email.com");
+            Cliente cliente = new Cliente("Pancrazio", "Gatto", "gattopancrazio@gmail.com");
             clienteRepo.aggiungiCliente(cliente);
 
             TipoMezzo cityCar = new TipoMezzo("CityCar", false, true);
