@@ -10,8 +10,7 @@ import java.util.List;
 
 @Repository
 public class RegistroManutenzioni implements IManutenzioneRepository {
-    
-    // Il tuo "database" in memoria
+
     private List<InterventoManutenzione> tabellaManutenzioni = new ArrayList<>();
 
     @Override

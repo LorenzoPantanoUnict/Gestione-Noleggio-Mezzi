@@ -19,9 +19,6 @@ public class RegistroClienti implements IClienteRepository {
     public RegistroClienti() {
         mappaClienti = new HashMap<>();
 
-        // Dati di prova
-        Cliente c = new Cliente("Mario", "Rossi", "mario.rossi@email.it", "mario123");
-        mappaClienti.put(c.getId(), c);
     }
 
     public boolean emailEsistente(String email) {
@@ -41,6 +38,16 @@ public class RegistroClienti implements IClienteRepository {
 
     public boolean esiste(int id) {
         return mappaClienti.containsKey(id);
+    }
+
+    public Cliente findByEmail(String email) {
+        if (email == null) return null;
+
+        return mappaClienti.values().stream()
+                .filter(c -> c.getEmail() != null) 
+                .filter(c -> c.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<Cliente> findAll() {

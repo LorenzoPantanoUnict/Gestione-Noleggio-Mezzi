@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mezzi Disponibili</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        h1 { color: #333; text-align: center; }
+        
+        .mezzo-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #007bff;
+        }
+
+        .info-mezzo h3 { margin: 0 0 10px 0; color: #007bff; }
+        .badge-tipo { 
+            background: #e9ecef; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 0.85em; 
+            font-weight: bold;
+        }
+
+        .prezzi-box { text-align: right; min-width: 300px; }
+        
+        select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%; margin-bottom: 10px; }
+        
+        .btn-prenota {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-prenota:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚗 Scegli il tuo mezzo</h1>
+    <p style="text-align: center;">Risultati per il periodo selezionato</p>
+
+    <div th:if="${#lists.isEmpty(mezzi)}" style="text-align: center; padding: 50px;">
+        <p>Spiacenti, nessun mezzo disponibile in questa sede per le date selezionate.</p>
+        <a href="/prenota/ricerca">⬅ Torna alla ricerca</a>
+    </div>
+
+    <div th:each="m : ${mezzi}" class="mezzo-card">
+        <div class="info-mezzo">
+            <span class="badge-tipo" th:text="${m.tipo.nome}">Categoria</span>
+            <h3>
+                <span th:text="${m.descrizione.marca}">Marca</span> 
+                <span th:text="${m.descrizione.modello}">Modello</span>
+            </h3>
+            <p>Dettagli auto non disponibili</p>
+        </div>
+
+        <div class="prezzi-box">
+            <form action="/prenota/conferma" method="post">
+                <input type="hidden" name="mezzoId" th:value="${m.id}">
+                <input type="hidden" name="sedeId" th:value="${sedeSceltaId}">
+
+                <label for="tariffaNome">Seleziona Tariffa:</label>
+                <select name="tariffaNome" required>
+                    <option th:each="t : ${tariffe}" 
+                            th:value="${t.nome}" 
+                            th:text="${t.nome}">
+                    </option>
+                </select>
+
+                <button type="submit" class="btn-prenota">Prenota Ora</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/prenota/ricerca">🔍 Nuova ricerca</a>
+    </div>
+</div>
+
+</body>
+</html>

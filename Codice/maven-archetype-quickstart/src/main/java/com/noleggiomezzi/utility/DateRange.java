@@ -11,6 +11,12 @@ public class DateRange {
         this.dataFine = dataFine;
     }
 
+    public boolean sovrappone(DateRange altro) {
+        // (Inizio1 < Fine2) AND (Inizio2 < Fine1)
+        return this.dataInizio.isBefore(altro.getDataFine()) && 
+            altro.getDataInizio().isBefore(this.dataFine);
+    }
+
     public LocalDateTime getDataInizio() { return dataInizio; }
     public LocalDateTime getDataFine() { return dataFine; }
 }

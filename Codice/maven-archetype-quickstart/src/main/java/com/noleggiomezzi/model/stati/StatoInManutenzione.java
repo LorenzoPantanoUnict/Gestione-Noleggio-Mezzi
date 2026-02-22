@@ -26,5 +26,10 @@ public class StatoInManutenzione implements IStatoMezzo {
     public boolean isDisponibile() { return false; }
 
     @Override
+    public void prenota(Mezzo mezzo) {
+        throw new StatoNonValidoException("Mezzo in manutenzione: prenotazione non consentita finché non torna disponibile.");
+    }
+
+    @Override
     public String getNomeStato() { return "IN_MANUTENZIONE"; }
 }

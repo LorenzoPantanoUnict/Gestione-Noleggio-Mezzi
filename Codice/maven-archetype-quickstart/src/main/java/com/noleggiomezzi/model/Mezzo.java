@@ -54,6 +54,9 @@ public class Mezzo {
         statoAttuale.impostaFuoriServizio(this);
     }
 
+    public void prenota() {
+        statoAttuale.prenota(this);
+    }   
     public boolean isDisponibile() {
         return statoAttuale.isDisponibile();
     }

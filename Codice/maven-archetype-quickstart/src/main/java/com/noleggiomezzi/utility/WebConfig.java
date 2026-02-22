@@ -16,7 +16,17 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**") // Proteggi tutto
-                .excludePathPatterns("/login", "/css/**", "/error"); // Tranne il login
+                .addPathPatterns("/**") // Proteggi tutto di default
+                .excludePathPatterns(
+                    "/login",           // Login Cassiere
+                    "/login-cliente",   // Login Cliente
+                    "/registra-cliente",// Registrazione (deve essere libera!)
+                    "/prenota/ricerca", // Ricerca mezzi (pubblica)
+                    "/prenota/risultati", // Risultati ricerca (pubblica)
+                    "/css/**",          // Risorse statiche
+                    "/js/**", 
+                    "/images/**",
+                    "/error"
+                ); 
     }
 }

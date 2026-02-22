@@ -10,5 +10,6 @@ public class StatoFuoriServizio implements IStatoMezzo {
     @Override public void segnaComeRubato(Mezzo m) { m.setStato(new StatoRubato()); }
     @Override public boolean isDisponibile() { return false; }
     @Override public void impostaFuoriServizio(Mezzo m) {}
+    @Override public void prenota(Mezzo mezzo) {throw new StatoNonValidoException("Mezzo fuori servizio: impossibile prenotare.");}
     @Override public String getNomeStato() { return "FUORI_SERVIZIO"; }
 }

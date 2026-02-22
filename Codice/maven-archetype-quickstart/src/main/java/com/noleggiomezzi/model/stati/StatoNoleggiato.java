@@ -32,5 +32,10 @@ public class StatoNoleggiato implements IStatoMezzo {
     public boolean isDisponibile() { return false; }
 
     @Override
+    public void prenota(Mezzo mezzo) {
+        throw new StatoNonValidoException("Il mezzo è attualmente noleggiato e non può essere prenotato.");
+    }
+
+    @Override
     public String getNomeStato() { return "NOLEGGIATO"; }
 }

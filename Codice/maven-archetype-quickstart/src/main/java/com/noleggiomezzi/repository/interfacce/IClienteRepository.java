@@ -8,7 +8,9 @@ public interface IClienteRepository {
 
     public Cliente getClienteById(int id);
 
-    void aggiungiCliente(Cliente cliente);
+    public void aggiungiCliente(Cliente cliente);
 
-    List<Cliente> findAll();
+    public List<Cliente> findAll();
+
+    public Cliente findByEmail(String email);
 }

@@ -13,12 +13,19 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         
         HttpSession session = request.getSession(false); 
+        String path = request.getRequestURI();
 
-        if (session == null || session.getAttribute("utenteLoggato") == null) {
-            response.sendRedirect("/login");
-            return false; 
+        if (session != null && (session.getAttribute("utenteLoggato") != null || 
+                                session.getAttribute("clienteLoggato") != null)) {
+            return true;
         }
 
-        return true; 
+        if (path.startsWith("/prenota/conferma")) {
+            response.sendRedirect("/login-cliente");
+        } else {
+            response.sendRedirect("/login");
+        }
+
+        return false; 
     }
 }

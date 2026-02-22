@@ -10,4 +10,5 @@ public interface IStatoMezzo {
     boolean isDisponibile();
     String getNomeStato();
     void impostaFuoriServizio(Mezzo mezzo);
+    void prenota(Mezzo mezzo);
 }

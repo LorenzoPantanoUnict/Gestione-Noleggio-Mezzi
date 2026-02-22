@@ -3,7 +3,11 @@ package com.noleggiomezzi.model.tariffe;
 
 public class TariffaGiornaliera implements ITariffa {
 
-    private double costoGiorno = 20.0;
+    private double costoGiorno;
+
+    public TariffaGiornaliera(double costoGiorno) {
+        this.costoGiorno = costoGiorno;
+    }
 
     @Override
     public double calcolaCosto(int durataMinuti, int km) {

@@ -60,6 +60,10 @@ public class Cliente {
         affidabilita = 0;
     }
 
+    public boolean checkPassword(String password){
+        return BCrypt.checkpw(password, this.password);
+    }
+
     // Getters
 
     public String getDati() {

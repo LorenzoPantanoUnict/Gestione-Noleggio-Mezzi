@@ -5,8 +5,6 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.noleggiomezzi.model.tariffe.ITariffa;
-import com.noleggiomezzi.model.tariffe.TariffaGiornaliera;
-import com.noleggiomezzi.model.tariffe.TariffaOraria;
 import com.noleggiomezzi.repository.interfacce.ITariffaRepository;
 
 import java.util.List;
@@ -19,10 +17,6 @@ public class CatalogoTariffe implements ITariffaRepository {
 
     public CatalogoTariffe() {
         this.tariffeDisponibili = new HashMap<String, ITariffa>();
-
-        // Dati di prova
-        this.tariffeDisponibili.put("ORARIA", new TariffaOraria());
-        this.tariffeDisponibili.put("GIORNALIERA", new TariffaGiornaliera());
     }
 
     @Override
@@ -33,5 +27,10 @@ public class CatalogoTariffe implements ITariffaRepository {
     @Override
     public List<ITariffa> findAll() {
         return tariffeDisponibili.values().stream().toList();
+    }
+
+    @Override
+    public void aggiungiTariffa(String nomeTariffa, ITariffa t){
+        tariffeDisponibili.put(nomeTariffa, t);
     }
 }

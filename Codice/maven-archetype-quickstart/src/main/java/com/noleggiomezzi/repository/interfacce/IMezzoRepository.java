@@ -14,5 +14,9 @@ public interface IMezzoRepository {
 
     boolean esisteMezzo(int id);
 
+    List<Mezzo> findMezziPerSedeETipo(int sedeId, String nomeTipo);
+
+    List<Mezzo> findMezziDisponibiliFisicamente(int sedeId, String nomeTipo);
+
     List<Mezzo> findAll();
 }

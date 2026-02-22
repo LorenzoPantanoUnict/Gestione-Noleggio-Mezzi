@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ricerca Prenotazione</title>
+    <style>
+        body { font-family: sans-serif; margin: 50px; line-height: 1.6; }
+        .container { max-width: 500px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin: 10px 0; display: block; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Prenota un Mezzo</h1>
+        <form action="/prenota/risultati" method="post">
+            <label>Data Inizio:</label>
+            <input type="datetime-local" name="inizio" required>
+            
+            <label>Data Fine:</label>
+            <input type="datetime-local" name="fine" required>
+            
+            <label>Sede:</label>
+            <select name="sedeId">
+                <option th:each="s : ${sedi}" th:value="${s.id}" th:text="${s.nome}"></option>
+            </select>
+
+            <label>Tipo Mezzo:</label>
+            <select name="tipoNome">
+                <option th:each="t : ${tipi}" th:value="${t.nome}" th:text="${t.nome}"></option>
+            </select>
+            
+            <button type="submit">Cerca Disponibilità</button>
+        </form>
+    </div>
+</body>
+</html>

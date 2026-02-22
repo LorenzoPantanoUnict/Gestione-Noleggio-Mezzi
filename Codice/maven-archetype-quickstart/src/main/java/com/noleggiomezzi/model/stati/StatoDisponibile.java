@@ -27,6 +27,11 @@ public class StatoDisponibile implements IStatoMezzo {
     @Override public void impostaFuoriServizio(Mezzo m) { m.setStato(new StatoFuoriServizio()); }
 
     @Override
+    public void prenota(Mezzo mezzo) {
+        mezzo.setStato(new StatoPrenotato());
+    }
+
+    @Override
     public String getNomeStato() { return "DISPONIBILE"; }
 
 }

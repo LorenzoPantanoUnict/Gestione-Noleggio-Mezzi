@@ -2,6 +2,8 @@ package com.noleggiomezzi.controller;
 
 import com.noleggiomezzi.service.AutenticazioneService;
 import com.noleggiomezzi.exceptions.CredenzialiErrateException;
+import com.noleggiomezzi.model.Cliente;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,13 +48,35 @@ public class LoginController {
     @GetMapping("/dashboard")
     public String mostraDashboard(Model model) {
     
-        return "dashboard"; // Carica dashboard.html
+        return "dashboard"; 
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        // Distruggiamo la sessione quando l'utente esce
         session.invalidate(); 
         return "redirect:/login?logout=true";
+    }
+
+    @GetMapping("/login-cliente")
+    public String mostraLoginCliente() {
+        return "login-cliente";
+    }
+
+    @PostMapping("/login-cliente")
+    public String loginCliente(@RequestParam String email, 
+                            @RequestParam String password, 
+                            HttpSession session, 
+                            Model model) {
+        try {
+            Cliente cliente = authService.autenticaCliente(email, password);
+
+            session.setAttribute("clienteLoggato", cliente);
+
+            return "redirect:/prenota/ricerca"; 
+            
+        } catch (CredenzialiErrateException e) {
+            model.addAttribute("errore", e.getMessage());
+            return "login-cliente";
+        }
     }
 }

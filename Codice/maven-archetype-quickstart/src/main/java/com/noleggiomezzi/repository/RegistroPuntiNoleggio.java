@@ -14,8 +14,6 @@ public class RegistroPuntiNoleggio implements IPuntoNoleggioRepository {
 
     public RegistroPuntiNoleggio() {
         this.sedi = new ArrayList<>();
-        sedi.add(new PuntoNoleggio(1, "Sede Centrale", "Via Roma 1, Milano", 50));
-        sedi.add(new PuntoNoleggio(2, "Aeroporto", "Terminal 1, Malpensa", 100));
     }
 
     @Override

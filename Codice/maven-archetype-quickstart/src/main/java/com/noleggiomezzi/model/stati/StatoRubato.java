@@ -11,4 +11,5 @@ public class StatoRubato implements IStatoMezzo {
     @Override public boolean isDisponibile() { return false; }
     @Override public void impostaFuoriServizio(Mezzo m) { throw new StatoNonValidoException("Mezzo rubato"); }
     @Override public String getNomeStato() { return "RUBATO"; }
+    @Override public void prenota(Mezzo mezzo) {throw new StatoNonValidoException("Mezzo rubato! Operazione non consentita.");}
 }

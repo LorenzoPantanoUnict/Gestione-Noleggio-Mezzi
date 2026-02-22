@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 @Repository 
 public class CatalogoTipoMezzi implements ICatalogoTipoMezzo {
@@ -20,5 +22,13 @@ public class CatalogoTipoMezzi implements ICatalogoTipoMezzo {
 
     public TipoMezzo getTipoMezzo(String nome) {
         return mappaTipiMezzi.get(nome);
+    }
+
+    public List<TipoMezzo> findAll(){
+        return new ArrayList<>(mappaTipiMezzi.values());
+    }
+
+    public void aggiungiTipoMezzo(TipoMezzo tipoMezzo){
+        mappaTipiMezzi.put(tipoMezzo.getNome(), tipoMezzo);
     }
 }
