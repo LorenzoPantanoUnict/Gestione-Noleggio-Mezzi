@@ -20,9 +20,14 @@ public class CatalogoTariffe implements ITariffaRepository {
     }
 
     @Override
-    public ITariffa getTariffaByName(String nome) {
-        return tariffeDisponibili.get(nome);
-    }
+    public ITariffa getTariffaByName(String nomeRichiesto) {
+    if (nomeRichiesto == null) return null;
+
+    return tariffeDisponibili.values().stream()
+            .filter(t -> t.getNome().equalsIgnoreCase(nomeRichiesto))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Tariffa non trovata: " + nomeRichiesto)); 
+}
 
     @Override
     public List<ITariffa> findAll() {

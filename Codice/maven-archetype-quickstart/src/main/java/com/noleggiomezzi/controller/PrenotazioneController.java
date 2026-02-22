@@ -88,6 +88,10 @@ public class PrenotazioneController {
         Mezzo m = catalogoMezzi.getMezzoById(mezzoId);
         PuntoNoleggio sede = registroSedi.getPuntoById(sedeId);
         ITariffa tariffa = catalogoTariffe.getTariffaByName(tariffaNome);
+
+        if (tariffa == null) {
+            throw new IllegalArgumentException("Errore critico: la tariffa selezionata non esiste nel catalogo.");
+        }
         
         String pnr = creaNuovaPrenotazione(cliente, m, periodo, sede, tariffa);
         
