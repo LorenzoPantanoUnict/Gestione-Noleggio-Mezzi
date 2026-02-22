@@ -1,11 +1,9 @@
 package com.noleggiomezzi.controller;
 
-import com.noleggiomezzi.model.*;
-import com.noleggiomezzi.model.tariffe.ITariffa;
-import com.noleggiomezzi.repository.*;
-import com.noleggiomezzi.service.MezzoService; 
+import com.noleggiomezzi.model.Cliente;
+import com.noleggiomezzi.model.Mezzo;
+import com.noleggiomezzi.service.PrenotazioneService; 
 import com.noleggiomezzi.utility.DateRange;
-import com.noleggiomezzi.exceptions.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,31 +17,17 @@ import java.util.List;
 @RequestMapping("/prenota")
 public class PrenotazioneController {
 
-    private final MezzoService mezzoService; 
-    private final CatalogoMezzi catalogoMezzi; 
-    private final RegistroPrenotazioni registroPrenotazioni;
-    private final RegistroPuntiNoleggio registroSedi;
-    private final CatalogoTariffe catalogoTariffe;
-    private final CatalogoTipoMezzi catalogoTipiMezzo;
+    private final PrenotazioneService prenotazioneService; 
 
-    public PrenotazioneController(MezzoService mezzoService,
-                                  CatalogoMezzi catalogoMezzi,
-                                  RegistroPrenotazioni registroPrenotazioni, 
-                                  RegistroPuntiNoleggio registroSedi, 
-                                  CatalogoTariffe catalogoTariffe,
-                                  CatalogoTipoMezzi catalogoTipiMezzo) {
-        this.mezzoService = mezzoService;
-        this.catalogoMezzi = catalogoMezzi;
-        this.registroPrenotazioni = registroPrenotazioni;
-        this.registroSedi = registroSedi;
-        this.catalogoTariffe = catalogoTariffe;
-        this.catalogoTipiMezzo = catalogoTipiMezzo;
+    // Iniezione di una sola dipendenza pulita!
+    public PrenotazioneController(PrenotazioneService prenotazioneService) {
+        this.prenotazioneService = prenotazioneService;
     }
 
     @GetMapping("/ricerca")
     public String mostraRicerca(Model model) {
-        model.addAttribute("sedi", registroSedi.findAll());
-        model.addAttribute("tipi", catalogoTipiMezzo.findAll()); 
+        model.addAttribute("sedi", prenotazioneService.getSediDisponibili());
+        model.addAttribute("tipi", prenotazioneService.getTipiMezzo()); 
         return "ricerca-prenotazione";
     }
 
@@ -61,13 +45,10 @@ public class PrenotazioneController {
         
         session.setAttribute("periodoPrenotazione", periodo);
 
-        TipoMezzo tipo = catalogoTipiMezzo.getTipoMezzo(tipoNome);
-
-        // Chiamata corretta al Service
-        List<Mezzo> disponibili = mezzoService.verificaDisponibilitaCompleta(tipo, periodo, sedeId);
+        List<Mezzo> disponibili = prenotazioneService.cercaMezziDisponibili(tipoNome, periodo, sedeId);
         
         model.addAttribute("mezzi", disponibili);
-        model.addAttribute("tariffe", catalogoTariffe.findAll());
+        model.addAttribute("tariffe", prenotazioneService.getTariffeDisponibili());
         model.addAttribute("sedeSceltaId", sedeId);
 
         return "risultati-prenotazione";
@@ -85,31 +66,11 @@ public class PrenotazioneController {
         DateRange periodo = (DateRange) session.getAttribute("periodoPrenotazione");
         if (periodo == null) return "redirect:/prenota/ricerca";
 
-        Mezzo m = catalogoMezzi.getMezzoById(mezzoId);
-        PuntoNoleggio sede = registroSedi.getPuntoById(sedeId);
-        ITariffa tariffa = catalogoTariffe.getTariffaByName(tariffaNome);
-
-        if (tariffa == null) {
-            throw new IllegalArgumentException("Errore critico: la tariffa selezionata non esiste nel catalogo.");
-        }
-        
-        String pnr = creaNuovaPrenotazione(cliente, m, periodo, sede, tariffa);
+        String pnr = prenotazioneService.elaboraPrenotazione(cliente, mezzoId, sedeId, tariffaNome, periodo);
         
         session.removeAttribute("periodoPrenotazione");
         
         return "redirect:/prenota/successo?pnr=" + pnr;
-    }
-
-    public String creaNuovaPrenotazione(Cliente cliente, Mezzo mezzo, DateRange periodo, PuntoNoleggio sede, ITariffa tariffa) {
-        if (!cliente.isAffidabile()) {
-            throw new StatoNonValidoException("Cliente non affidabile.");
-        }
-
-        Prenotazione nuova = new Prenotazione(cliente, mezzo, periodo, sede, tariffa);
-        registroPrenotazioni.aggiungiPrenotazione(nuova);
-        mezzo.prenota(); 
-        
-        return nuova.getPnr();
     }
 
     @GetMapping("/successo")
