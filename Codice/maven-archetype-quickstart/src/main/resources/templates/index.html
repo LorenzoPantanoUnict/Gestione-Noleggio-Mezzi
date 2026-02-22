@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Noleggio Mezzi - Home</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .hero { text-align: center; margin-bottom: 40px; }
+        h1 { color: #333; font-size: 2.5em; }
+        .subtitle { color: #666; font-size: 1.2em; }
+        
+        .card-container { 
+            display: flex; 
+            gap: 30px; 
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            text-align: center; 
+            width: 300px; 
+            text-decoration: none; 
+            color: inherit; 
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+        }
+        
+        .card h2 { margin-bottom: 15px; }
+        .cliente-title { color: #28a745; }
+        .staff-title { color: #007bff; }
+        
+        .card p { font-size: 1em; color: #555; margin-bottom: 25px; line-height: 1.5; }
+        
+        .btn { 
+            display: inline-block; 
+            padding: 12px 25px; 
+            color: white; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .btn-green { background-color: #28a745; }
+        .btn-blue { background-color: #007bff; }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>🚗 Noleggio Mezzi Smart</h1>
+        <p class="subtitle">Scegli l'area a cui desideri accedere</p>
+    </div>
+
+    <div class="card-container">
+        <a href="/prenota/ricerca" class="card">
+            <h2 class="cliente-title">Area Clienti</h2>
+            <p>Cerca i mezzi disponibili, confronta le tariffe e prenota subito il veicolo perfetto per te.</p>
+            <span class="btn btn-green">Effettua Prenotazione</span>
+        </a>
+
+        <a href="/login" class="card">
+            <h2 class="staff-title">Area Personale</h2>
+            <p>Accesso riservato ai cassieri per la gestione dei noleggi, resi, clienti e manutenzione.</p>
+            <span class="btn btn-blue">Accedi al Sistema</span>
+        </a>
+    </div>
+
+</body>
+</html>

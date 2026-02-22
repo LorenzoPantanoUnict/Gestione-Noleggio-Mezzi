@@ -26,6 +26,11 @@ public class LoginController {
         this.authService = authService;
     }
 
+    @GetMapping({"/", "/index"})
+    public String mostraHome() {
+        return "index";
+    }
+
     @GetMapping("/login")
     public String mostraLogin() {
         return "login"; 

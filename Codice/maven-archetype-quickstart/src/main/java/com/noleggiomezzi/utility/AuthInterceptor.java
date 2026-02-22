@@ -20,7 +20,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (path.startsWith("/prenota/conferma")) {
+        if (path.startsWith("/prenota")) {
             response.sendRedirect("/login-cliente");
         } else {
             response.sendRedirect("/login");

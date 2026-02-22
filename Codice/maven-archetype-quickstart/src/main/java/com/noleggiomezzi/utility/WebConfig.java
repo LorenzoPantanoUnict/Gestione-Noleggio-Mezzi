@@ -18,11 +18,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**") // Proteggi tutto di default
                 .excludePathPatterns(
+                    "/",
+                    "/index",
                     "/login",           // Login Cassiere
                     "/login-cliente",   // Login Cliente
                     "/registra-cliente",// Registrazione (deve essere libera!)
-                    "/prenota/ricerca", // Ricerca mezzi (pubblica)
-                    "/prenota/risultati", // Risultati ricerca (pubblica)
                     "/css/**",          // Risorse statiche
                     "/js/**", 
                     "/images/**",
