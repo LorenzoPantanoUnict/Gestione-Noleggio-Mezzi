@@ -15,17 +15,23 @@ public class AuthInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession(false); 
         String path = request.getRequestURI();
 
-        if (session != null && (session.getAttribute("utenteLoggato") != null || 
-                                session.getAttribute("clienteLoggato") != null)) {
-            return true;
-        }
+        boolean isClienteLoggato = (session != null && session.getAttribute("clienteLoggato") != null);
+        boolean isCassiereLoggato = (session != null && session.getAttribute("utenteLoggato") != null);
 
         if (path.startsWith("/prenota")) {
-            response.sendRedirect("/login-cliente");
+            if (isClienteLoggato) {
+                return true; 
+            } else {
+                response.sendRedirect("/login-cliente");
+                return false;
+            }
+        }
+        
+        if (isCassiereLoggato) {
+            return true; 
         } else {
             response.sendRedirect("/login");
+            return false;
         }
-
-        return false; 
     }
 }
