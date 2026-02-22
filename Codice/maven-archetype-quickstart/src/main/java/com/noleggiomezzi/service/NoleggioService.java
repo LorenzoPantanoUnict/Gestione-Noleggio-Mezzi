@@ -83,6 +83,7 @@ public class NoleggioService {
 
         Noleggio n = new Noleggio(cliente, mezzo, tariffa, puntoNoleggio);
         mezzo.noleggia();
+        
         registroNoleggi.aggiungiNoleggio(n);
 
         return n.getId();
@@ -91,7 +92,6 @@ public class NoleggioService {
     public void concludiNoleggio(int idNoleggio, int kmFinali, double livelloCarica) {
         Noleggio n = registroNoleggi.getNoleggioById(idNoleggio);
 
-        // Logica integrata da ChiusuraNoleggio
         double durata = Duration.between(n.getDataInizio(), LocalDateTime.now()).toMinutes();
         double costo = n.calcolaCostoFinale(kmFinali, durata);
 

@@ -31,7 +31,7 @@ public class NoleggioController {
 
     @GetMapping("/avvia-noleggio")
     public String mostraFormAvvio(Model model) {
-        // Il controller chiede i dati al Service invece di andare direttamente sui Repo
+        
         model.addAttribute("listaClienti", noleggioService.getTuttiIClienti());
         model.addAttribute("mezziDisponibili", noleggioService.getMezziDisponibili());
         model.addAttribute("listaSedi", noleggioService.getTutteLeSedi());
