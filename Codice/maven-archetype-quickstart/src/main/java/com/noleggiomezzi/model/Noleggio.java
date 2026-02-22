@@ -48,7 +48,7 @@ public class Noleggio {
         
         int kmPercorsi = kmFinali - this.kmIniziali;
         
-        this.costoTotale = tariffa.calcolaCosto((int) durataMinuti, kmPercorsi);
+        this.costoTotale = tariffa.calcolaCosto((int) durataMinuti, kmPercorsi)* mezzo.getTipo().getMoltiplicatore();
         return this.costoTotale;
     }
 

@@ -20,7 +20,7 @@ public class RegistroClienti implements IClienteRepository {
         mappaClienti = new HashMap<>();
 
         // Dati di prova
-        Cliente c = new Cliente("Mario", "Rossi", "mario.rossi@email.it");
+        Cliente c = new Cliente("Mario", "Rossi", "mario.rossi@email.it", "mario123");
         mappaClienti.put(c.getId(), c);
     }
 

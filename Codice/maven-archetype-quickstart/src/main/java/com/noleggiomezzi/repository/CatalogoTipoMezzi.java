@@ -16,10 +16,6 @@ public class CatalogoTipoMezzi implements ICatalogoTipoMezzo {
     public CatalogoTipoMezzi() { 
         this.mappaTipiMezzi = new HashMap<>();
         
-        // Dati Test
-        this.mappaTipiMezzi.put("Auto", new TipoMezzo("Auto", false, true));
-        this.mappaTipiMezzi.put("Furgone", new TipoMezzo("Furgone", false, true));
-        this.mappaTipiMezzi.put("Moto", new TipoMezzo("Moto", false, false));
     }
 
     public TipoMezzo getTipoMezzo(String nome) {

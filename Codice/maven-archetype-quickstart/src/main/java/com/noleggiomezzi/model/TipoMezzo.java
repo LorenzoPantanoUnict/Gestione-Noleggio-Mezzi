@@ -4,15 +4,18 @@ public class TipoMezzo {
     private String nome;
     private boolean isElettrico;
     private boolean richiedePatente;
+    private double moltiplicatoreTariffa;
 
     public TipoMezzo() { }
 
     public TipoMezzo(String nome,
                      boolean isElettrico,
-                     boolean richiedePatente) {
+                     boolean richiedePatente,
+                     double moltiplicatoreTariffa) {
         this.nome = nome;
         this.isElettrico = isElettrico;
         this.richiedePatente = richiedePatente;
+        this.moltiplicatoreTariffa = moltiplicatoreTariffa;
     }
 
     // Getters
@@ -27,6 +30,10 @@ public class TipoMezzo {
     
     public boolean isRichiedePatente() {
         return richiedePatente;
+    }
+
+    public double getMoltiplicatore(){
+        return this.moltiplicatoreTariffa;
     }
 
     //Setters

@@ -1,6 +1,7 @@
 package com.noleggiomezzi.model;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Cliente {
 
@@ -11,12 +12,13 @@ public class Cliente {
     private int affidabilita;
     private String email;
     private double credito;
+    private String password;
 
     private static final int AFFIDABILITA_DEFAULT = 1;
     private static final double CREDITO_DEFAULT = 200.0;
 
-    //Costruttori 
-    public Cliente( String nome, String cognome, String email) {
+    //Costruttore
+    public Cliente( String nome, String cognome, String email, String password) {
 
         if(email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email non valida");
@@ -33,6 +35,7 @@ public class Cliente {
 
         this.affidabilita = AFFIDABILITA_DEFAULT;
         this.credito = CREDITO_DEFAULT;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     // Metodi
@@ -81,6 +84,10 @@ public class Cliente {
     
     public void riattivaAccount() {
         affidabilita = 1;
+    }
+
+    public String getPasswordHash(){
+        return this.password;
     }
 
     //Setters

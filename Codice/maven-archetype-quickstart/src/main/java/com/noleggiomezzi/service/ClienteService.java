@@ -16,12 +16,14 @@ public class ClienteService {
     }
 
 
-    public void registraNuovoCliente(String nome, String cognome, String email) {
-    
-        if(email == null || nome == null || cognome == null){
-            throw new IllegalArgumentException("i campi per registrare un utente non devono essere nulli");
+    public void registraNuovoCliente(String nome, String cognome, String email, String password) {
+        
+        //Validazione campi
+        if(email == null || nome == null || cognome == null || password == null || password.isEmpty()){
+            throw new IllegalArgumentException("Tutti i campi, inclusa la password, sono obbligatori");
         }
 
+        // Controllo unicità email 
         boolean emailGiaEsistente = registroClienti.findAll().stream()
                 .filter(c -> c.getEmail() != null)
                 .anyMatch(c -> c.getEmail().equalsIgnoreCase(email));
@@ -30,7 +32,8 @@ public class ClienteService {
             throw new IllegalArgumentException("Errore: Esiste già un cliente registrato con l'email " + email);
         }
 
-        Cliente nuovoCliente = new Cliente(nome, cognome, email);
+        // Creazione cliente con password (assicurati che il costruttore di Cliente sia aggiornato)
+        Cliente nuovoCliente = new Cliente(nome, cognome, email, password);
         
         registroClienti.aggiungiCliente(nuovoCliente);
     }

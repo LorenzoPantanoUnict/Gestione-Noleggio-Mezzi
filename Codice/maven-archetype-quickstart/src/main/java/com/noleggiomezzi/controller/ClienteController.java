@@ -2,7 +2,6 @@ package com.noleggiomezzi.controller;
 
 import com.noleggiomezzi.service.ClienteService;
 
-//Validatore
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +27,10 @@ public class ClienteController {
         this.clienteService = rc;
     }
 
+    /**
+     * Registra Nuovo Cliente
+     * 
+     */
 
     @GetMapping("/registra-cliente")
     public String mostraFormaRegistrazione(Model model){
@@ -36,10 +39,12 @@ public class ClienteController {
 
     @PostMapping("/registra-cliente")
     public String registraClienteRequest(@RequestParam("nome") String nome,
-                                  @RequestParam("cognome") String cognome,
-                                  @RequestParam("email") String email) {
+                                        @RequestParam("cognome") String cognome,
+                                        @RequestParam("email") String email,
+                                        @RequestParam("password") String password) { // <--- Aggiunto parametro
         try {
-            clienteService.registraNuovoCliente(nome, cognome, email);
+            // Passiamo la password al service
+            clienteService.registraNuovoCliente(nome, cognome, email, password);
             return "redirect:/registra-cliente?success=true";
         } catch (IllegalArgumentException e) {
             System.err.println("Errore nella registrazione: " + e.getMessage());
@@ -47,6 +52,10 @@ public class ClienteController {
         }
     }
 
+
+    /**
+     * Gestione BlackList
+     */
     @GetMapping("/gestione-clienti")
     public String mostraGestioneClienti(Model model) {
         model.addAttribute("listaClienti", clienteService.getTuttiClienti());

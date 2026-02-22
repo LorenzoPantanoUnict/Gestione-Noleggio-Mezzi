@@ -28,10 +28,10 @@ public class App {
             PuntoNoleggio stazione = new PuntoNoleggio(1, "Stazione Centrale", "Via Roma 1", 10);
             puntoRepo.aggiungiPunto(stazione);
 
-            Cliente cliente = new Cliente("Pancrazio", "Gatto", "gattopancrazio@gmail.com");
+            Cliente cliente = new Cliente("Pancrazio", "Gatto", "gattopancrazio@gmail.com", "pancrazio123");
             clienteRepo.aggiungiCliente(cliente);
 
-            TipoMezzo cityCar = new TipoMezzo("CityCar", false, true);
+            TipoMezzo cityCar = new TipoMezzo("CityCar", false, true, 2);
             DescrizioneMezzo desc = new DescrizioneMezzo("Fiat", "Panda", 2023, 1200, 4, cityCar);
             Mezzo panda = new Mezzo(101, desc, stazione);
             mezzoRepo.aggiungiMezzo(panda);

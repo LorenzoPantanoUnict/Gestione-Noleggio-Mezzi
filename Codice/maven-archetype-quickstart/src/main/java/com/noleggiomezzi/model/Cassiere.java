@@ -17,7 +17,7 @@ public class Cassiere {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt()); // Hash della password
         this.nome = nome;
         this.cognome = cognome;
-    }
+    } 
 
     public boolean checkPassword(String passwordDaVerificare) {
         return BCrypt.checkpw(passwordDaVerificare, this.password);

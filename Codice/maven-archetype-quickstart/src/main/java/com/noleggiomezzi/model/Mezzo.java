@@ -32,7 +32,7 @@ public class Mezzo {
         this.statoAttuale = nuovoStato;
     }
 
-    // --- DELEGAZIONI ALLO STATO (Refactoring dei cambiamenti di stato) ---
+    // --- DELEGAZIONI ALLO STATO 
 
     public void noleggia() {
         statoAttuale.noleggia(this);

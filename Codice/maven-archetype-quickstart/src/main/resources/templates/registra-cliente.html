@@ -12,6 +12,7 @@
         button:hover { background: #218838; }
         .error { color: #721c24; background-color: #f8d7da; padding: 10px; margin-bottom: 15px; border-radius: 5px; }
         .success { color: #155724; background-color: #d4edda; padding: 10px; margin-bottom: 15px; border-radius: 5px; }
+        .back-link { display: block; margin-top: 20px; color: #007bff; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -19,11 +20,11 @@
     <p>Inserisci i dati del nuovo cliente per aggiungerlo al sistema.</p>
     
     <div th:if="${param.error}" class="error">
-        ❌ Errore durante la registrazione! Controlla che l'email sia valida o che non sia già usata.
+        ❌ Errore durante la registrazione! Controlla i dati inseriti o l'email già in uso.
     </div>
 
     <div th:if="${param.success}" class="success">
-        ✅ Cliente registrato con successo! Puoi inserirne un altro.
+        ✅ Cliente registrato con successo!
     </div>
 
     <form action="/registra-cliente" method="post">
@@ -41,9 +42,16 @@
             <label for="email">Indirizzo Email:</label>
             <input type="email" id="email" name="email" required placeholder="Es. mario.rossi@email.it">
         </div>
+
+        <div class="form-group">
+            <label for="password">Crea Password:</label>
+            <input type="password" id="password" name="password" required placeholder="Scegli una password sicura">
+        </div>
         
         <button type="submit">Salva Cliente</button>
     </form>
+
+    <a href="/dashboard" class="back-link">⬅ Torna alla Dashboard</a>
 
 </body>
 </html>

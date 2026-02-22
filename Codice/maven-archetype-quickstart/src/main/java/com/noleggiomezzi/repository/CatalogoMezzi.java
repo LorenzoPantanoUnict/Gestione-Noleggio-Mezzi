@@ -28,7 +28,7 @@ public class CatalogoMezzi implements IMezzoRepository {
         this.mappa = new HashMap<>();
         
         // Dati di test
-        TipoMezzo tipo = new TipoMezzo("Auto", false, true);
+        TipoMezzo tipo = new TipoMezzo("Auto", false, true, 2);
         DescrizioneMezzo desc = new DescrizioneMezzo("Fiat", "Panda", 2023, 1200, 5, tipo);
         PuntoNoleggio punto = new PuntoNoleggio(1, "Sede Centrale", "Via Roma", 50);
         
