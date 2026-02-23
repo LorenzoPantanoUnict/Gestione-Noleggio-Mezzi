@@ -1,16 +1,16 @@
-# 🚗 Sistema di Noleggio Mezzi
+# Sistema di Noleggio Mezzi
 
 Progetto realizzato per il corso di **Ingegneria del Software** (A.A. 2025/2026). 
 Il sistema informatizza la gestione operativa e telematica di una compagnia di noleggio veicoli (auto, furgoni, veicoli elettrici), coordinando le prenotazioni web dei clienti e le operazioni fisiche al banco gestite dallo staff.
 
-## 👥 Autori
+## Autori
 * **Anastasia Alida Salamanca**
 * **Lorenzo Pantano**
 * **Sara Scavone**
 
 ---
 
-## 🛠️ Tecnologie Utilizzate
+## Tecnologie Utilizzate
 * **Linguaggio:** Java 
 * **Framework Backend:** Spring Boot (Web, MVC)
 * **Motore di Template (Frontend):** Thymeleaf
@@ -20,7 +20,7 @@ Il sistema informatizza la gestione operativa e telematica di una compagnia di n
 
 ---
 
-## ✨ Funzionalità Principali (Casi d'Uso)
+## Funzionalità Principali (Casi d'Uso)
 Il sistema è stato sviluppato in modo iterativo e incrementale coprendo i seguenti Casi d'Uso:
 
 1. **UC1 - Autentica Cassiere:** Autenticazione sicura dello staff per l'accesso alla dashboard del sistema gestionale.
@@ -36,7 +36,7 @@ Il sistema è stato sviluppato in modo iterativo e incrementale coprendo i segue
 
 ---
 
-## 🧩 Design Pattern Applicati
+## Design Pattern Applicati
 Il sistema fa largo uso dei pattern GoF per garantire un'architettura manutenibile e scalabile:
 * **State Pattern:** Gestisce il ciclo di vita fisico del veicolo (`Disponibile`, `Noleggiato`, `In Manutenzione`, ecc.), bloccando transizioni illecite.
 * **Strategy Pattern:** Permette di iniettare a runtime algoritmi di calcolo tariffario differenti (es. Tariffa Oraria o Giornaliera).
@@ -45,7 +45,7 @@ Il sistema fa largo uso dei pattern GoF per garantire un'architettura manutenibi
 
 ---
 
-## 🚀 Come avviare l'applicazione
+## Come avviare l'applicazione
 
 ### Prerequisiti
 * Java Development Kit (JDK) 17 o superiore installato.
@@ -72,13 +72,19 @@ Password: admin123
 Puoi effettuare il login utilizzando uno qualsiasi dei seguenti account pre-registrati:
 
 Cliente 1:
+
 Email: gattopancrazio@gmail.com
+
 Password: pancrazio123
 
 Cliente 2:
+
 Email: sarocane@gmail.com
+
 Password: saro123
 
 Cliente 3:
+
 Email: alfioconiglio@gmail.com
+
 Password: alfio123
