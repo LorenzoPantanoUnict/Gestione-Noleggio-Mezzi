@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
-        System.out.println("\nSistema di Noleggio avviato su http://localhost:8080/dashboard");
+        System.out.println("\nSistema di Noleggio avviato su http://localhost:8080/");
     }
 
     @Bean

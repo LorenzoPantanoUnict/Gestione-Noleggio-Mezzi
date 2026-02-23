@@ -43,7 +43,6 @@ public class ClienteController {
                                         @RequestParam("email") String email,
                                         @RequestParam("password") String password) { // <--- Aggiunto parametro
         try {
-            // Passiamo la password al service
             clienteService.registraNuovoCliente(nome, cognome, email, password);
             return "redirect:/registra-cliente?success=true";
         } catch (IllegalArgumentException e) {
