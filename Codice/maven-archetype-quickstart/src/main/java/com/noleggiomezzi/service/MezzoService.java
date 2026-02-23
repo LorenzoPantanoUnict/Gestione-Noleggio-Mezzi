@@ -2,7 +2,6 @@ package com.noleggiomezzi.service;
 
 import com.noleggiomezzi.model.Mezzo;
 import com.noleggiomezzi.model.TipoMezzo;
-import com.noleggiomezzi.model.DescrizioneMezzo;
 import com.noleggiomezzi.model.PuntoNoleggio;
 import com.noleggiomezzi.model.Prenotazione;
 import com.noleggiomezzi.repository.interfacce.IMezzoRepository;
@@ -10,6 +9,7 @@ import com.noleggiomezzi.repository.interfacce.IPuntoNoleggioRepository;
 import com.noleggiomezzi.repository.CatalogoTipoMezzi;
 import com.noleggiomezzi.repository.RegistroPrenotazioni;
 import com.noleggiomezzi.utility.DateRange;
+import com.noleggiomezzi.utility.MezzoBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class MezzoService {
         this.tipiRepo = tipiRepo;
     }
 
-    // Metodi per la prenotazione
+    // --- Metodi per la prenotazione ---
 
     public List<Mezzo> verificaDisponibilitaCompleta(TipoMezzo tipo, DateRange periodoRichiesto, int sedeId) {
         List<Mezzo> mezziFisicamentePresenti = mezzoRepo.findMezziDisponibiliFisicamente(sedeId, tipo.getNome());
@@ -50,7 +50,7 @@ public class MezzoService {
                 .anyMatch(p -> p.getPeriodo().sovrappone(periodoRichiesto)); 
     }
 
-    // Metodi utili al controller
+    // --- Metodi utili al controller ---
 
     public List<Mezzo> getTuttiMezzi() {
         return mezzoRepo.findAll();
@@ -64,10 +64,20 @@ public class MezzoService {
                                    int cilindrata, int nPosti, String tipoMezzoNome, int idSede) {
         
         TipoMezzo tipo = tipiRepo.getTipoMezzo(tipoMezzoNome);
-        DescrizioneMezzo desc = new DescrizioneMezzo(marca, modello, anno, cilindrata, nPosti, tipo);
         PuntoNoleggio sede = sedeRepo.getPuntoById(idSede);
         
-        Mezzo nuovoMezzo = new Mezzo(idMezzo, desc, sede);
+        // Utilizzo del builder per creare il mezzo
+        Mezzo nuovoMezzo = new MezzoBuilder()
+                .conId(idMezzo)
+                .diMarca(marca)
+                .modello(modello)
+                .immatricolatoNel(anno)
+                .conCilindrata(cilindrata)
+                .conNumeroPosti(nPosti)
+                .diTipo(tipo)
+                .allocatoPresso(sede)
+                .build();
+        
         mezzoRepo.aggiungiMezzo(nuovoMezzo);
     }
 }
