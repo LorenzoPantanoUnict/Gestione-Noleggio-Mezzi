@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prenotazione Confermata</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .success-card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            text-align: center; 
+            max-width: 500px; 
+            border-top: 5px solid #28a745;
+        }
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+        h1 { color: #333; margin-top: 0; }
+        p { color: #555; line-height: 1.5; }
+        
+        .pnr-box { 
+            background: #f8f9fa; 
+            border: 2px dashed #28a745; 
+            padding: 20px; 
+            font-size: 2.5em; 
+            font-weight: bold; 
+            color: #28a745; 
+            margin: 25px 0; 
+            letter-spacing: 5px; 
+            border-radius: 10px;
+        }
+        
+        .btn-home { 
+            display: inline-block; 
+            padding: 12px 25px; 
+            background: #007bff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            margin-top: 20px; 
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-home:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <div class="icon">✅</div>
+        <h1>Prenotazione Confermata!</h1>
+        <p>Grazie per aver scelto il nostro servizio. Il tuo veicolo è stato bloccato con successo per le date richieste.</p>
+        
+        <p>Il tuo Codice di Prenotazione (PNR) è:</p>
+        
+        <div class="pnr-box" th:text="${pnr}">ABC1234</div>
+        
+        <p>Mostra questo codice al banco ritiro presso la sede selezionata per ritirare le chiavi.</p>
+        
+        <a href="/" class="btn-home">Torna alla Home</a>
+    </div>
+</body>
+</html>

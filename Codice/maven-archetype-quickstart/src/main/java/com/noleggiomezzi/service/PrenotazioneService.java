@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class PrenotazioneService {
 
-    private final MezzoService mezzoService; // Usiamo MezzoService per il controllo logico
+    private final MezzoService mezzoService; 
     private final CatalogoMezzi catalogoMezzi;
     private final RegistroPrenotazioni registroPrenotazioni;
     private final RegistroPuntiNoleggio registroSedi;

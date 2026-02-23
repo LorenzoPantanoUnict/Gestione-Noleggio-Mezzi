@@ -19,7 +19,6 @@ public class PrenotazioneController {
 
     private final PrenotazioneService prenotazioneService; 
 
-    // Iniezione di una sola dipendenza pulita!
     public PrenotazioneController(PrenotazioneService prenotazioneService) {
         this.prenotazioneService = prenotazioneService;
     }
@@ -70,12 +69,12 @@ public class PrenotazioneController {
         
         session.removeAttribute("periodoPrenotazione");
         
-        return "redirect:/prenota/successo?pnr=" + pnr;
+        return "redirect:/prenota/successo-prenotazione?pnr=" + pnr;
     }
 
-    @GetMapping("/successo")
+    @GetMapping("/successo-prenotazione")
     public String mostraSuccesso(@RequestParam String pnr, Model model) {
         model.addAttribute("pnr", pnr);
-        return "successo";
+        return "successo-prenotazione";
     }
 }
