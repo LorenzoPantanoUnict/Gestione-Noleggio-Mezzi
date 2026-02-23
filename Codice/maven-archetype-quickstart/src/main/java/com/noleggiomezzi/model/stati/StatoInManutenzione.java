@@ -10,7 +10,9 @@ public class StatoInManutenzione implements IStatoMezzo {
     }
 
     @Override
-    public void restituisci(Mezzo mezzo) {}
+    public void restituisci(Mezzo mezzo) {
+        mezzo.setStato(new StatoDisponibile());
+    }
 
     @Override
     public void inviaInManutenzione(Mezzo mezzo) {}
